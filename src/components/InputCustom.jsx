@@ -3,9 +3,9 @@ import { Text, StyleSheet, View, TextInput } from 'react-native'
 
 let name = ''
 
-export default function InputCustom({ label, placeholder }) {
+export default function InputCustom({ label, placeholder, pad, numeric }) {
   return (
-    <View style={styles.container}>
+    <View style={[ styles.container, {paddingHorizontal: pad ? 20 : 0} ]}>
         <Text style={styles.label} >
             { label }
         </Text>
@@ -13,6 +13,7 @@ export default function InputCustom({ label, placeholder }) {
             style={styles.input}
             value={name}
             placeholder={placeholder}
+            keyboardType={numeric ? "numeric" : ""}
         />
     </View>
   )
@@ -23,7 +24,6 @@ const styles = StyleSheet.create({
         height: 90,
         display: 'flex',
         justifyContent: 'space-between',
-        paddingHorizontal: 20,
         paddingBottom: 20
     },
     label: {
@@ -32,9 +32,10 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 40,
+        width: '100%',
         borderColor: '#FF00000',
         backgroundColor: '#f8f8f8',
         borderRadius: 8,
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
     }
   })

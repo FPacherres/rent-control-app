@@ -11,11 +11,12 @@ export default function Title({ text }) {
 
 const styles = StyleSheet.create({
     container: {
-        height: 50,
+        height: 60,
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+        paddingBottom: 10
     },
     title: {
       fontSize: 24,

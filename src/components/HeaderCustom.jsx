@@ -19,12 +19,11 @@ export default function HeaderCustom() {
 const styles = StyleSheet.create({
     container: {
         height: 80,
-        // backgroundColor: '#FF0000',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
     },
     title: {
       fontSize: 30,
