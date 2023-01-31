@@ -1,7 +1,12 @@
 import React from 'react'
 import { Text, StyleSheet, View, TouchableWithoutFeedback } from 'react-native'
+import { useFonts } from 'expo-font'
 
 export default function HeaderCustom() {
+  const [fontsCustom] = useFonts({
+    Medium: require("../../assets/fonts/Poppins-Medium.ttf")
+  })
+  if(!fontsCustom) return null
   return (
     <View style={styles.container}>
         <Text style={styles.title} >
@@ -28,6 +33,7 @@ const styles = StyleSheet.create({
     title: {
       fontSize: 30,
       textTransform: 'uppercase',
+      fontFamily: 'Medium'
     },
     btn: {
         backgroundColor: '#FF0000',

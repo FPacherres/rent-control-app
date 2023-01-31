@@ -1,9 +1,14 @@
 import React from 'react'
 import { Text, StyleSheet, View, TextInput } from 'react-native'
+import { useFonts } from 'expo-font'
 
 let name = ''
 
 export default function InputCustom({ label, placeholder, pad, numeric }) {
+  const [fontsCustom] = useFonts({
+    Light: require("../../assets/fonts/Poppins-ExtraLight.ttf")
+    })
+  if(!fontsCustom) return null
   return (
     <View style={[ styles.container, {paddingHorizontal: pad ? 20 : 0} ]}>
         <Text style={styles.label} >
@@ -28,7 +33,8 @@ const styles = StyleSheet.create({
     },
     label: {
         fontSize: 18,
-        paddingLeft: 20
+        paddingLeft: 20,
+        fontFamily: 'Light'
     },
     input: {
         height: 40,
@@ -37,5 +43,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#f8f8f8',
         borderRadius: 8,
         paddingHorizontal: 20,
+        fontFamily: 'Light'
     }
   })

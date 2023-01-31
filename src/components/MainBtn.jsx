@@ -1,7 +1,12 @@
 import React from 'react'
 import { Text, StyleSheet, View, TouchableWithoutFeedback, Dimensions } from 'react-native'
+import { useFonts } from 'expo-font'
 
 export default function HeaderCustom({ title }) {
+  const [fontsCustom] = useFonts({
+    Light: require("../../assets/fonts/Poppins-ExtraLight.ttf")
+  })
+  if(!fontsCustom) return null
   return (
     <TouchableWithoutFeedback>
         <View style={styles.btn}>
@@ -23,6 +28,7 @@ const styles = StyleSheet.create({
         borderRadius: 8
     },
     title: {
-        fontSize: 22
+        fontSize: 22,
+        fontFamily: 'Light'
     }
   })

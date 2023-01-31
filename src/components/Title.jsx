@@ -1,7 +1,12 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
+import { useFonts } from 'expo-font'
 
 export default function Title({ text }) {
+  const [fontsCustom] = useFonts({
+    Regular: require("../../assets/fonts/Poppins-Regular.ttf")
+  })
+  if(!fontsCustom) return null
   return (
     <View style={styles.container}>
         <Text style={styles.title} >{ text }</Text>
@@ -21,5 +26,6 @@ const styles = StyleSheet.create({
     title: {
       fontSize: 24,
       textTransform: 'uppercase',
+      fontFamily: 'Regular'
     }
   })
