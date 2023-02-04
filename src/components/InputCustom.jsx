@@ -4,7 +4,7 @@ import { useFonts } from 'expo-font'
 
 let name = ''
 
-export default function InputCustom({ label, placeholder, pad, numeric }) {
+export default function InputCustom({ input, pad, numeric }) {
   const [fontsCustom] = useFonts({
     Light: require("../../assets/fonts/Poppins-ExtraLight.ttf")
     })
@@ -12,12 +12,12 @@ export default function InputCustom({ label, placeholder, pad, numeric }) {
   return (
     <View style={[ styles.container, {paddingHorizontal: pad ? 20 : 0} ]}>
         <Text style={styles.label} >
-            { label }
+            { input.label }
         </Text>
         <TextInput 
             style={styles.input}
             value={name}
-            placeholder={placeholder}
+            placeholder={input.placeholder}
             keyboardType={numeric ? "numeric" : ""}
         />
     </View>
