@@ -5,6 +5,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import Home from './screens/Home'
 import Administrator from './screens/Administrator'
 import Tenants from './screens/Tenants'
+import Payments from './screens/Payments'
 
 const Drawer = createDrawerNavigator()
 
@@ -14,6 +15,7 @@ export default function MyDrawer() {
       <Drawer.Screen name="INFORMACION BASICA" component={Home} />
       <Drawer.Screen name="ADMINISTRADOR" component={Administrator} />
       <Drawer.Screen name="INQUILINOS" component={Tenants} />
+      <Drawer.Screen name="PAGOS" component={Payments} />
     </Drawer.Navigator>
   );
 }
