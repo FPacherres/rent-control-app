@@ -1,15 +1,13 @@
-import React from 'react'
-import { View } from 'react-native'
-// import Home from './src/views/superAdmi/Home'
-// import Administrator from './src/views/superAdmi/Administrator'
-import HomeSuperAdmi from './src/screens/SuperAdmi/HomeSuperAdmi'
+import 'react-native-gesture-handler';
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import MyDrawer from './src/routes';
 
 export default function App() {
-  // return <Home />
-  // return <Administrator />
   return (
-    <View>
-      <HomeSuperAdmi />
-    </View>
-  )
+    <NavigationContainer>
+      <MyDrawer />
+    </NavigationContainer>
+  );
 }
+
