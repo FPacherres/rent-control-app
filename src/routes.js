@@ -4,6 +4,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 // views
 import Home from './screens/Home'
 import Administrator from './screens/Administrator'
+import Tenants from './screens/Tenants'
 
 const Drawer = createDrawerNavigator()
 
@@ -12,6 +13,7 @@ export default function MyDrawer() {
     <Drawer.Navigator useLegacyImplementation>
       <Drawer.Screen name="INFORMACION BASICA" component={Home} />
       <Drawer.Screen name="ADMINISTRADOR" component={Administrator} />
+      <Drawer.Screen name="INQUILINOS" component={Tenants} />
     </Drawer.Navigator>
   );
 }

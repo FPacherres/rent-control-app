@@ -2,7 +2,7 @@ import React from 'react'
 import { Text, StyleSheet, View, TouchableWithoutFeedback, Dimensions } from 'react-native'
 import { useFonts } from 'expo-font'
 
-export default function HeaderCustom({ title }) {
+export default function MainBtn({ title }) {
   const [fontsCustom] = useFonts({
     Light: require("../../assets/fonts/Poppins-ExtraLight.ttf")
   })
