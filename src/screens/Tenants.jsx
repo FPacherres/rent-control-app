@@ -14,17 +14,17 @@ export default function Tenants() {
         {   
             title: 'Inquilinos',
             data: [
-                { id: '0', label: "Nombre", value: "", placeholder: "Nombre del Administrador" },
-                { id: '1', label: "Teléfono", value: "", placeholder: "+51 987 654 321" },
-                { id: '2', label: "DNI", value: "", placeholder: "87654321" },
-                { id: '3', label: "Correo", value: "", placeholder: "example@gmail.com" },
-                { id: '4', label: "Contraseña", value: "", placeholder: "***********" },
-                { id: '5', label: "Contraseña", value: "", placeholder: "***********" },
-                { id: '6', label: "Contraseña", value: "", placeholder: "***********" },
-                { id: '7', label: "Contraseña", value: "", placeholder: "***********" },
-                { id: '8', label: "Contraseña", value: "", placeholder: "***********" },
-                { id: '9', label: "Contraseña", value: "", placeholder: "***********" },
-                { id: '10', label: "Contraseña", value: "", placeholder: "***********" }
+                { id: '0', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
+                { id: '1', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
+                { id: '2', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
+                { id: '3', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
+                { id: '4', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
+                { id: '5', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
+                { id: '6', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
+                { id: '7', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
+                { id: '8', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
+                { id: '9', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
+                { id: '10', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" }
             ]
         }
     ]
@@ -33,7 +33,7 @@ export default function Tenants() {
             <SectionList
                 sections={DATA}
                 keyExtractor={(item, index) => item + index}
-                renderItem={({ item }) => <CardTenant />}
+                renderItem={({ item }) => <CardTenant data={item} />}
                 renderSectionHeader={({ section: { title } }) => (
                     <Title title={title} />
                 )}

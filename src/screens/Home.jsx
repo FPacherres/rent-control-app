@@ -11,7 +11,7 @@ const typeUser = 'SuperAdmi'
 // const typeUser = 'Admi'
 // const typeUser = 'Normal'
 
-export default function HomeSuperAdmi() {
+export default function Home() {
     const DATA = [
         {
             title: 'Información Básica',
