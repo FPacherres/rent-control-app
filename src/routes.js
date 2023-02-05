@@ -3,7 +3,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 
 // views
 import Home from './screens/Home'
-import Administrator from './screens/SuperAdmi/Administrator'
+import Administrator from './screens/Administrator'
 
 const Drawer = createDrawerNavigator()
 

@@ -3,6 +3,7 @@ import { View, SafeAreaView, SectionList, StyleSheet, Dimensions, Text } from 'r
 import Constants from 'expo-constants'
 import InputCustom from '../components/InputCustom'
 import MainBtn from '../components/MainBtn'
+import Title from '../components/Title'
 
 let ScreenHeight = Dimensions.get("window").height
 
@@ -13,6 +14,7 @@ const typeUser = 'SuperAdmi'
 export default function HomeSuperAdmi() {
     const DATA = [
         {
+            title: 'Información Básica',
             action: 'Guardar',
             data: [
                 { id: '0', label: "Nombre", value: "", placeholder: "Nombre del Edificio" },
@@ -32,6 +34,9 @@ export default function HomeSuperAdmi() {
                     sections={DATA}
                     keyExtractor={(item, index) => item + index}
                     renderItem={({ item }) => <InputCustom input={item} pad={true} numeric={false} />}
+                    renderSectionHeader={({ section: { title } }) => (
+                        <Title title={title} />
+                    )}
                     renderSectionFooter={({ section: { action } }) => (
                         <MainBtn title={action} />
                     )}

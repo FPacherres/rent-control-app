@@ -8,7 +8,7 @@ export default function HeaderCustom({ title }) {
   })
   if(!fontsCustom) return null
   return (
-    <View style={{height: 100}}>
+    <View style={{height: 120, paddingTop: 20}}>
       <TouchableWithoutFeedback>
         <View style={styles.btn}>
             <Text style={styles.title}>{ title }</Text>
