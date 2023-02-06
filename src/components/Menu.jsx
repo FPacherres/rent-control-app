@@ -7,6 +7,10 @@ import ButtonMenu from './ButtonMenu'
 
 let ScreenHeight = Dimensions.get("window").height
 
+// const typeUser = 'SuperAdmi'
+const typeUser = 'Admi'
+// const typeUser = 'Normal'
+
 
 export default function Menu({ navigation: { navigate } }) {
     const image = require(`../../assets/logoLight.png`)
@@ -16,27 +20,65 @@ export default function Menu({ navigation: { navigate } }) {
         Medium: require("../../assets/fonts/Poppins-Medium.ttf")
     })
     if (!fontsCustom) return null
-    return (
-        <DrawerContentScrollView>
-            <View style={styles.Container}>
-                <View>
-                    <View style={styles.ContainerLogo}>
-                        <Image style={styles.Logo} source={image}></Image>
-                        <Text style={styles.Title}>CBuilding</Text>
+    if(typeUser === "SuperAdmi") {
+        return (
+            <DrawerContentScrollView>
+                <View style={styles.Container}>
+                    <View>
+                        <View style={styles.ContainerLogo}>
+                            <Image style={styles.Logo} source={image}></Image>
+                            <Text style={styles.Title}>CBuilding</Text>
+                        </View>
+                        <View>
+                            <ButtonMenu title='Información Básica' onPress={() => navigate('Home')} />
+                            <ButtonMenu title='Administrador' onPress={() => navigate('Administrador')} />
+                            <ButtonMenu title='Inquilinos' onPress={() => navigate('Inquilinos')} />
+                            <ButtonMenu title='Pagos' onPress={() => navigate('Pagos')} />
+                        </View>
                     </View>
                     <View>
-                        <ButtonMenu title='Información Básica' onPress={() => navigate('Home')} />
-                        <ButtonMenu title='Administrador' onPress={() => navigate('Administrador')} />
-                        <ButtonMenu title='Inquilinos' onPress={() => navigate('Inquilinos')} />
-                        <ButtonMenu title='Pagos' onPress={() => navigate('Pagos')} />
+                        <ButtonMenu title='Configuración' onPress={() => navigate('Configuracion')} />
                     </View>
                 </View>
-                <View>
-                    <ButtonMenu title='Configuración' onPress={() => navigate('Configuracion')} />
+            </DrawerContentScrollView>
+        )
+    }
+    if(typeUser === "Admi") {
+        return (
+            <DrawerContentScrollView>
+                <View style={styles.Container}>
+                    <View>
+                        <View style={styles.ContainerLogo}>
+                            <Image style={styles.Logo} source={image}></Image>
+                            <Text style={styles.Title}>CBuilding</Text>
+                        </View>
+                        <View>
+                            <ButtonMenu title='Información Básica' onPress={() => navigate('Home')} />
+                            <ButtonMenu title='Inquilinos' onPress={() => navigate('Inquilinos')} />
+                            <ButtonMenu title='Pagos' onPress={() => navigate('Pagos')} />
+                        </View>
+                    </View>
                 </View>
-            </View>
-        </DrawerContentScrollView>
-    )
+            </DrawerContentScrollView>
+        )
+    }
+    if(typeUser === "Normal") {
+        return (
+            <DrawerContentScrollView>
+                <View style={styles.Container}>
+                    <View>
+                        <View style={styles.ContainerLogo}>
+                            <Image style={styles.Logo} source={image}></Image>
+                            <Text style={styles.Title}>CBuilding</Text>
+                        </View>
+                        <View>
+                            <ButtonMenu title='Información Básica' onPress={() => navigate('Home')} />
+                        </View>
+                    </View>
+                </View>
+            </DrawerContentScrollView>
+        )
+    }
 }
 
 const styles = StyleSheet.create({

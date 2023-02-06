@@ -18,7 +18,6 @@ export default function MyDrawer() {
       drawerContent={(props)=> <Menu {...props} />}
     >
       <Drawer.Screen name="Home" component={Home} />
-      <Drawer.Screen name="Administrador" component={Administrator} />
       <Drawer.Screen name="Inquilinos" component={Tenants} />
       <Drawer.Screen name="Pagos" component={Payments} />
       <Drawer.Screen name="Configuracion" component={Settings} />
