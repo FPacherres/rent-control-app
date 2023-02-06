@@ -1,0 +1,68 @@
+import React from 'react'
+import { StyleSheet, Text, View, Image, Dimensions } from 'react-native'
+import { useFonts } from 'expo-font'
+import { DrawerContentScrollView } from '@react-navigation/drawer'
+
+import ButtonMenu from './ButtonMenu'
+
+let ScreenHeight = Dimensions.get("window").height
+
+
+export default function Menu({ navigation: { navigate } }) {
+    const image = require(`../../assets/logoLight.png`)
+    const [fontsCustom] = useFonts({
+        Light: require("../../assets/fonts/Poppins-ExtraLight.ttf"),
+        Regular: require("../../assets/fonts/Poppins-Regular.ttf"),
+        Medium: require("../../assets/fonts/Poppins-Medium.ttf")
+    })
+    if (!fontsCustom) return null
+    return (
+        <DrawerContentScrollView>
+            <View style={styles.Container}>
+                <View>
+                    <View style={styles.ContainerLogo}>
+                        <Image style={styles.Logo} source={image}></Image>
+                        <Text style={styles.Title}>CBuilding</Text>
+                    </View>
+                    <View>
+                        <ButtonMenu title='Información Básica' onPress={() => navigate('Home')} />
+                        <ButtonMenu title='Administrador' onPress={() => navigate('Administrador')} />
+                        <ButtonMenu title='Inquilinos' onPress={() => navigate('Inquilinos')} />
+                        <ButtonMenu title='Pagos' onPress={() => navigate('Pagos')} />
+                    </View>
+                </View>
+                <View>
+                    <ButtonMenu title='Configuración' onPress={() => navigate('Configuracion')} />
+                </View>
+            </View>
+        </DrawerContentScrollView>
+    )
+}
+
+const styles = StyleSheet.create({
+    Container: {
+        display: "flex",
+        justifyContent: "space-between",
+        height: ScreenHeight - 5,
+        paddingBottom: 10
+    },
+    ContainerLogo: {
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        height: 70,
+        paddingHorizontal: 35,
+    },
+    Logo: {
+        width: 30,
+        height: 30
+    },
+    Title: {
+        fontSize: 32,
+        textTransform: "uppercase",
+        fontFamily: "Medium",
+        paddingTop: 17,
+        paddingLeft: 10
+    }
+})
