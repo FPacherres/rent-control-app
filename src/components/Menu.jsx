@@ -35,6 +35,7 @@ export default function Menu({ navigation: { navigate } }) {
                             <ButtonMenu title='Inquilinos' onPress={() => navigate('Inquilinos')} />
                             <ButtonMenu title='Pagos' onPress={() => navigate('Pagos')} />
                         </View>
+                        <ButtonMenu title='Cerrar Sesión' onPress={() => navigate('Pagos')} />
                     </View>
                     <View>
                         <ButtonMenu title='Configuración' onPress={() => navigate('Configuracion')} />
@@ -57,6 +58,7 @@ export default function Menu({ navigation: { navigate } }) {
                             <ButtonMenu title='Inquilinos' onPress={() => navigate('Inquilinos')} />
                             <ButtonMenu title='Pagos' onPress={() => navigate('Pagos')} />
                         </View>
+                        <ButtonMenu title='Cerrar Sesión' onPress={() => navigate('Pagos')} />
                     </View>
                 </View>
             </DrawerContentScrollView>
@@ -74,6 +76,7 @@ export default function Menu({ navigation: { navigate } }) {
                         <View>
                             <ButtonMenu title='Información Básica' onPress={() => navigate('Home')} />
                         </View>
+                        <ButtonMenu title='Cerrar Sesión' onPress={() => navigate('Pagos')} />
                     </View>
                 </View>
             </DrawerContentScrollView>
@@ -86,7 +89,7 @@ const styles = StyleSheet.create({
         display: "flex",
         justifyContent: "space-between",
         height: ScreenHeight - 5,
-        paddingBottom: 10
+        paddingBottom: 30
     },
     ContainerLogo: {
         width: "100%",

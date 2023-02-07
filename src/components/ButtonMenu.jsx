@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useFonts } from 'expo-font'
 
 // import { BookmarkSquareIcon } from "react-native-heroicons/solid"
-import { BookmarkSquareIcon, UsersIcon, CurrencyDollarIcon, ShieldCheckIcon, Cog6ToothIcon } from "react-native-heroicons/outline"
+import { BookmarkSquareIcon, UsersIcon, CurrencyDollarIcon, ShieldCheckIcon, Cog6ToothIcon, ArrowLeftOnRectangleIcon } from "react-native-heroicons/outline"
 
 export default function ButtonMenu({ title, onPress }) {
     const [fontsCustom] = useFonts({
@@ -17,6 +17,7 @@ export default function ButtonMenu({ title, onPress }) {
         if (name === "Pagos") return <CurrencyDollarIcon color="#FFFFFF" fill="transparent" size={20} />
         if (name === "Administrador") return <ShieldCheckIcon color="#FFFFFF" fill="transparent" size={20} />
         if (name === "Configuración") return <Cog6ToothIcon color="#FFFFFF" fill="transparent" size={20} />
+        if (name === "Cerrar Sesión") return <ArrowLeftOnRectangleIcon color="#FFFFFF" fill="transparent" size={20} />
     }
     return (
         <TouchableOpacity
@@ -33,7 +34,7 @@ export default function ButtonMenu({ title, onPress }) {
 const styles = StyleSheet.create({
     NavItem: {
         paddingHorizontal: 25,
-        paddingVertical: 15,
+        paddingVertical: 20,
         display: "flex",
         flexDirection: "row",
         alignItems: "center"
