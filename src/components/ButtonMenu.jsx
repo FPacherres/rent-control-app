@@ -1,18 +1,30 @@
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useFonts } from 'expo-font'
 
+// import { BookmarkSquareIcon } from "react-native-heroicons/solid"
+import { BookmarkSquareIcon, UsersIcon, CurrencyDollarIcon, ShieldCheckIcon, Cog6ToothIcon } from "react-native-heroicons/outline"
 
-export default function ButtonMenu({title, onPress}) {
+export default function ButtonMenu({ title, onPress }) {
     const [fontsCustom] = useFonts({
         Light: require("../../assets/fonts/Poppins-ExtraLight.ttf"),
         Regular: require("../../assets/fonts/Poppins-Regular.ttf"),
         Medium: require("../../assets/fonts/Poppins-Medium.ttf")
     })
+    const getIcon = (name) => {
+        if (name === "Información Básica") return <BookmarkSquareIcon color="#FFFFFF" fill="transparent" size={20} />
+        if (name === "Inquilinos") return <UsersIcon color="#FFFFFF" fill="transparent" size={20} />
+        if (name === "Pagos") return <CurrencyDollarIcon color="#FFFFFF" fill="transparent" size={20} />
+        if (name === "Administrador") return <ShieldCheckIcon color="#FFFFFF" fill="transparent" size={20} />
+        if (name === "Configuración") return <Cog6ToothIcon color="#FFFFFF" fill="transparent" size={20} />
+    }
     return (
         <TouchableOpacity
             style={styles.NavItem}
-            onPress={ onPress }>
+            onPress={onPress}>
+            <View style={{ paddingBottom: 3 }}>
+                {getIcon(title)}
+            </View>
             <Text style={styles.Text}>{title}</Text>
         </TouchableOpacity>
     )
@@ -20,12 +32,16 @@ export default function ButtonMenu({title, onPress}) {
 
 const styles = StyleSheet.create({
     NavItem: {
-        paddingHorizontal: 35,
-        paddingVertical: 15
+        paddingHorizontal: 25,
+        paddingVertical: 15,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center"
     },
     Text: {
-        fontSize: 22,
-        fontFamily: "Light",
-        textTransform: "uppercase"
+        fontSize: 20,
+        fontFamily: "Regular",
+        textTransform: "uppercase",
+        marginLeft: 10
     }
 })

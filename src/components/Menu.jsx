@@ -7,8 +7,8 @@ import ButtonMenu from './ButtonMenu'
 
 let ScreenHeight = Dimensions.get("window").height
 
-// const typeUser = 'SuperAdmi'
-const typeUser = 'Admi'
+const typeUser = 'SuperAdmi'
+// const typeUser = 'Admi'
 // const typeUser = 'Normal'
 
 
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         height: 70,
-        paddingHorizontal: 35,
+        paddingHorizontal: 25,
     },
     Logo: {
         width: 30,
