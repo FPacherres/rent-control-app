@@ -6,9 +6,9 @@ import MainBtn from '../components/MainBtn'
 import Title from '../components/Title'
 
 
-const typeUser = 'SuperAdmi'
+// const typeUser = 'SuperAdmi'
 // const typeUser = 'Admi'
-// const typeUser = 'Normal'
+const typeUser = 'Normal'
 
 export default function Administrator() {
     const DATA = [

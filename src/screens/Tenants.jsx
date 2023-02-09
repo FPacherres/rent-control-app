@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { SafeAreaView, SectionList, StyleSheet, View, Text, TouchableOpacity, Modal, TouchableHighlight } from 'react-native'
 import Constants from 'expo-constants'
 import CardTenant from '../components/CardTenant'
@@ -53,7 +53,8 @@ export default function Tenants() {
         )
     }
     if (typeUser === 'Admi') {
-        let DATA = [
+        let currentUserId = 0
+        let INPUTS = [
             {
                 title: 'Registrar Inquilino',
                 action: 'Guardar',
@@ -68,34 +69,41 @@ export default function Tenants() {
                 ]
             }
         ]
-        let oldDATA = [
+        let USERS = [
             {
-                title: 'Editar Inquilino',
-                action: 'Guardar',
+                title: 'Inquilinos',
                 data: [
-                    { id: '0', label: "Nombre", value: "", placeholder: "Nombre del Administrador" },
-                    { id: '1', label: "DNI", value: "", placeholder: "87654321" },
-                    { id: '2', label: "Teléfono", value: "", placeholder: "+51 987 654 321" },
-                    { id: '3', label: "N° Piso", value: "", placeholder: "4" },
-                    { id: '4', label: "N° Departamento", value: "", placeholder: "402" },
-                    { id: '5', label: "Correo", value: "", placeholder: "example@gmail.com" },
-                    { id: '6', label: "Contraseña", value: "", placeholder: "***********" }
+                    { id: '0', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
+                    { id: '1', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
+                    { id: '2', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
+                    { id: '3', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
+                    { id: '4', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
+                    { id: '5', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
+                    { id: '6', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
+                    { id: '7', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
+                    { id: '8', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
+                    { id: '9', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
+                    { id: '10', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" }
                 ]
             }
         ]
+        // const [FilteredUser, setFilteredUser] = useState([])
         const editUser = (data) => {
-            oldDATA = data
+            USERS = data
             setTypeAction('edit')
             setShowModal(true)
         }
+        // const idUser = (id) => {
+        //     useEffect(()=> FilteredUser([USERS[0].data.find(d => d.id === id)]))
+        // }
         return (
             <SafeAreaView style={[styles.container, { position: "relative" }]}>
                 <SectionList
-                    sections={DATA}
+                    sections={USERS}
                     keyExtractor={(item, index) => item + index}
-                    renderItem={({ item }) => <CardWithActions data={item} edit={true} editUser={editUser}/>}
-                    renderSectionHeader={({ section: { title } }) => (
-                        <Title title={title} />
+                    renderItem={({ item }) => <CardWithActions data={item} edit={true} editUser={editUser} idUser={idUser} />}
+                    renderSectionHeader={() => (
+                        <Title title="Registrar Inquilino" />
                     )}
                     renderSectionFooter={() => (
                         <View style={{ height: 120 }}></View>
@@ -105,7 +113,7 @@ export default function Tenants() {
                     onPress={() => {
                         setShowModal(true)
                         setTypeAction("newUser")
-                        }}>
+                    }}>
                     <Text style={{ fontSize: 48, fontFamily: "Regular" }}>+</Text>
                 </TouchableHighlight>
                 <Modal
@@ -115,11 +123,11 @@ export default function Tenants() {
                     // transparent
                     visible={showModal}
                 >
-                    { typeAction === "newUser"
+                    {typeAction === "newUser"
                         ?
                         <SafeAreaView style={styles.Modal}>
                             <SectionList
-                                sections={DATA}
+                                sections={INPUTS}
                                 keyExtractor={(item, index) => item + index}
                                 renderItem={({ item }) => <InputCustom input={item} pad={true} numeric={false} />}
                                 renderSectionHeader={({ section: { title } }) => (
@@ -136,10 +144,10 @@ export default function Tenants() {
                                 )}
                             />
                         </SafeAreaView>
-                        : 
+                        :
                         <SafeAreaView style={styles.Modal}>
                             <SectionList
-                                sections={oldDATA}
+                                sections={FilteredUser}
                                 keyExtractor={(item, index) => item + index}
                                 renderItem={({ item }) => <InputCustom input={item} pad={true} numeric={false} />}
                                 renderSectionHeader={({ section: { title } }) => (
@@ -148,7 +156,7 @@ export default function Tenants() {
                                             onPress={() => setShowModal(false)}>
                                             <Text style={{ fontFamily: "Light" }}>Regresar</Text>
                                         </TouchableOpacity>
-                                        <Title title={title} modal={true} />
+                                    <Title title="Editar Inquilino" modal={true} />
                                     </View>
                                 )}
                                 renderSectionFooter={({ section: { action } }) => (

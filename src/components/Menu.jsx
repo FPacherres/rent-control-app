@@ -7,9 +7,9 @@ import ButtonMenu from './ButtonMenu'
 
 let ScreenHeight = Dimensions.get("window").height
 
-const typeUser = 'SuperAdmi'
+// const typeUser = 'SuperAdmi'
 // const typeUser = 'Admi'
-// const typeUser = 'Normal'
+const typeUser = 'Normal'
 
 
 export default function Menu({ navigation: { navigate } }) {

@@ -5,9 +5,9 @@ import { DrawerContentScrollView } from '@react-navigation/drawer'
 
 import ButtonMenu from './ButtonMenu'
 
-const typeUser = 'SuperAdmi'
+// const typeUser = 'SuperAdmi'
 // const typeUser = 'Admi'
-// const typeUser = 'Normal'
+const typeUser = 'Normal'
 
 export default function Menu({navigation}) {
     const image = require(`../../assets/logoLight.png`)

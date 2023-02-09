@@ -2,10 +2,13 @@ import React from 'react'
 import { Text, StyleSheet, View, TouchableHighlight } from 'react-native'
 import { useFonts } from 'expo-font'
 
-export default function CardTenant({ data, edit, editUser }) {
+import { PhoneIcon, UserIcon } from "react-native-heroicons/outline"
+
+export default function CardTenant({ data, edit, editUser, idUser }) {
     const action = () => {
-        if(edit) {
+        if (edit) {
             editUser(data)
+            idUser(data.id)
         }
     }
     const [fontsCustom] = useFonts({
@@ -16,7 +19,8 @@ export default function CardTenant({ data, edit, editUser }) {
     if (!fontsCustom) return null
     return (
         <View style={[styles.card, { backgroundColor: "#395065" }]}>
-            <View style={[styles.snippet, { width: "100%", paddingLeft: 20 }]}>
+            <View style={[styles.snippet, { width: "100%", paddingLeft: 20, display: "flex", flexDirection: "row" }]}>
+                <View style={{ paddingTop: 3, width: 25 }}><UserIcon color="#FFFFFF" fill="transparent" size={20} /></View>
                 <Text style={styles.title}>Inquilino 001</Text>
             </View>
             <View style={styles.action}>
@@ -24,17 +28,19 @@ export default function CardTenant({ data, edit, editUser }) {
                     <View>
                         <Text style={{ fontFamily: "Light" }}>Piso <Text style={{ fontFamily: "Regular" }}>{data.apartament}   /   </Text>Dtpo <Text style={{ fontFamily: "Regular" }}>{data.number}</Text></Text>
                     </View>
-                    <View>
-                        <Text style={{ fontFamily: "Regular" }}>{data.phone}987654321</Text>
+                    <View style={{ display: "flex", flexDirection: "row" }}>
+                        <View style={{ paddingTop: 2, width: 17 }}><PhoneIcon color="#FFFFFF" fill="transparent" size={12} /></View>
+                        <Text style={{ fontFamily: "Regular" }}>
+                            987 654 321</Text>
                     </View>
                 </View>
                 <TouchableHighlight
                     style={styles.btn}
                     onPress={action}>
                     {edit ?
-                        <Text style={{fontFamily: "Medium", fontSize: 16}}>Editar</Text>
+                        <Text style={{ fontFamily: "Medium", fontSize: 16 }}>Editar</Text>
                         :
-                        <Text style={{fontFamily: "Medium", fontSize: 16}}>Pago</Text>
+                        <Text style={{ fontFamily: "Medium", fontSize: 16 }}>Pago</Text>
                     }
                 </TouchableHighlight>
             </View>
