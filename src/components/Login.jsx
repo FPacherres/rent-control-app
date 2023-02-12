@@ -91,7 +91,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    position: 'relative'
+    position: 'relative',
+    paddingTop: 50
   },
   logo: {
     width: 85, 
@@ -117,7 +118,9 @@ const styles = StyleSheet.create({
   input: {
     height: 55,
     marginTop: 10,
-    borderRadius: 5
+    borderRadius: 5,
+    paddingHorizontal: 20,
+    fontFamily: 'Light'
   },
   btnSignUp: {
     backgroundColor: '#395065',
@@ -134,7 +137,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Regular'
   },
   btnForgetPassword: {
-    position: 'absolute',
-    bottom: 50
+    marginTop: 50
   }
 })
