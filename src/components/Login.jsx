@@ -14,6 +14,7 @@ export default function LoginScreen() {
   
   const [email, SetEmail] = React.useState('')
   const [password, SetPassword] = React.useState('')
+  const [forgotPassword, SetForgotPassword] = React.useState(false)
   const navigation = useNavigation()
   
   const app = initializeApp(firebaseConfig)
@@ -24,11 +25,10 @@ export default function LoginScreen() {
     Regular: require("../../assets/fonts/Poppins-Regular.ttf"),
     Medium: require("../../assets/fonts/Poppins-Medium.ttf")
   })
-
+  const theme = useColorScheme()
   const image = require(`../../assets/LoginScreen.png`)
   const logo = require(`../../assets/logoLight.png`)
 
-  const theme = useColorScheme()
   
   if (!fontsCustom) return null
   
@@ -62,21 +62,29 @@ export default function LoginScreen() {
     <View style={styles.container}>
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
       <Image style={styles.logo} source={logo}></Image>
-        <Text style={styles.title}>Iniciar Sesión</Text>
+        <Text style={styles.title}>{forgotPassword ? 'Recuperar Cuenta' : 'Iniciar Sesión'}</Text>
+        <Text style={[styles.msgForgotPassword, {display: forgotPassword ? 'flex' : 'none'}]}>
+          Ingrese su correo para que el Administrador recupere su cuenta en el transcurso de 24 horas.
+        </Text>
         <View style={styles.groupInput}>
           <Text style={styles.label}>Email</Text>
-          <TextInput style={[styles.input, {backgroundColor: theme === 'dark' ? '#fff' : '#fff'}]}  onChangeText={ (text) => SetEmail(text) } />
+          <TextInput style={[styles.input, {backgroundColor: theme === 'dark' ? '#fff' : '#fff'}]}  onChangeText={ (text) => SetEmail(text.trim()) } />
         </View>
-        <View style={styles.groupInput}>
+        <View style={[styles.groupInput, {display: !forgotPassword ? 'flex' : 'none'}]}>
           <Text style={styles.label} >Password</Text>
-          <TextInput style={[styles.input, {backgroundColor: theme === 'dark' ? '#fff' : '#fff'}]}  onChangeText={ (text) => SetPassword(text) } />
+          <TextInput style={[styles.input, {backgroundColor: theme === 'dark' ? '#fff' : '#000'}]}  onChangeText={ (text) => SetPassword(text) } />
         </View>
         <TouchableOpacity style={styles.btnSignUp} onPress={handleSignIn}>
           <Text style={styles.btnText}>Ingresar</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.btnForgetPassword} onPress={handleCreateAccount}>
-          <Text style={{fontFamily: 'Light', fontSize: 12}}>Olvido su contraseña?</Text>
+        <TouchableOpacity style={styles.btnForgetPassword} onPress={() => SetForgotPassword(!forgotPassword)}>
+          <Text style={{fontFamily: 'Light', fontSize: 12}}>
+            {forgotPassword ? 'Regresar' : 'Olvido su contraseña?'}
+          </Text>
         </TouchableOpacity>
+        {/* <TouchableOpacity style={styles.btnForgetPassword} onPress={handleCreateAccount}>
+          <Text style={{fontFamily: 'Light', fontSize: 12}}>Olvido su contraseña?</Text>
+        </TouchableOpacity> */}
       </ImageBackground>
     </View>
   )
@@ -138,5 +146,12 @@ const styles = StyleSheet.create({
   },
   btnForgetPassword: {
     marginTop: 50
+  },
+  msgForgotPassword: {
+    fontFamily: 'Regular',
+    fontSize: 18,
+    paddingHorizontal: 20,
+    textAlign: 'center',
+    marginBottom: 50
   }
 })
