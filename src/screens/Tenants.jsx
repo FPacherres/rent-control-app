@@ -5,13 +5,18 @@ import CardTenant from '../components/CardTenant'
 import { useFonts } from 'expo-font'
 import Title from '../components/Title'
 import { ScrollView, TextInput } from 'react-native-gesture-handler'
+
+
 import app from '../firebase'
 import { getFirestore, collection, addDoc } from 'firebase/firestore'
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 
 // const typeUser = 'SuperAdmi'
 const typeUser = 'Admi'
 
 export default function Tenants() {
+
+    const auth = getAuth(app)
 
     const db = getFirestore(app)
 
@@ -30,32 +35,43 @@ export default function Tenants() {
         setState({ ...state, [property]: value })
     }
 
+    const handleCreateAccount = async () => {
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, state.email, state.password);
+            return userCredential.user.uid;
+        } catch (error) {
+            console.log(error);
+            Alert.alert(error.message);
+        }
+    }
+
     const saveNewUser = async () => {
         try {
-          if (validationFormNewUser(state)) {
-            // setDisabled(true)
-            const user = await addDoc(collection(db, 'users'),{
-              name: state.name,
-              dni: state.dni,
-              phone: state.phone,
-              email: state.email,
-              password: state.password,
-              number: state.number,
-              apartament: state.apartament,
-              typeUser: 'Normal',
-              debet: false,
-              forgotPassword: false
-            });
-            Alert.alert('Inquilino guardado.');
-            setShowModal(false);
-            console.log(user);
-            setDisabled(false)
-          }
+            if (validationFormNewUser(state)) {
+                // setDisabled(true)
+                const userId = await handleCreateAccount()
+                const newUser = await addDoc(collection(db, 'users'), {
+                    name: state.name,
+                    dni: state.dni,
+                    phone: state.phone,
+                    email: state.email,
+                    password: state.password,
+                    number: state.number,
+                    apartament: state.apartament,
+                    typeUser: 'Normal',
+                    debet: false,
+                    forgotPassword: false,
+                    id: userId
+                });
+                Alert.alert('Inquilino guardado.');
+                setShowModal(false);
+                setDisabled(false)
+            }
         } catch (error) {
-          console.error('Error al guardar el nuevo usuario:', error);
-          Alert.alert(error)
+            console.error('Error al guardar el nuevo usuario:', error);
+            Alert.alert(error)
         }
-      }
+    }
 
     const validationFormNewUser = (obj) => {
         if (obj.name === '') {
@@ -104,11 +120,11 @@ export default function Tenants() {
         {
             title: 'Inquilinos',
             data: [
-                { 
-                    id: '0', 
-                    name: "Inquilino CBuilding 001", 
-                    apartament: "402", 
-                    number: "1", 
+                {
+                    id: '0',
+                    name: "Inquilino CBuilding 001",
+                    apartament: "402",
+                    number: "1",
                     phone: "987654321",
                     dni: "887654321",
                     email: "user@email.com",
@@ -117,11 +133,11 @@ export default function Tenants() {
                     debet: false,
                     forgotPassword: true
                 },
-                { 
-                    id: '0', 
-                    name: "Inquilino CBuilding 002", 
-                    apartament: "403", 
-                    number: "1", 
+                {
+                    id: '0',
+                    name: "Inquilino CBuilding 002",
+                    apartament: "403",
+                    number: "1",
                     phone: "987654321",
                     dni: "887654321",
                     email: "user@email.com",
@@ -130,11 +146,11 @@ export default function Tenants() {
                     debet: true,
                     forgotPassword: true
                 },
-                { 
-                    id: '0', 
-                    name: "Inquilino CBuilding 003", 
-                    apartament: "402", 
-                    number: "1", 
+                {
+                    id: '0',
+                    name: "Inquilino CBuilding 003",
+                    apartament: "402",
+                    number: "1",
                     phone: "987654321",
                     dni: "887654321",
                     email: "user@email.com",
@@ -143,11 +159,11 @@ export default function Tenants() {
                     debet: false,
                     forgotPassword: false
                 },
-                { 
-                    id: '0', 
-                    name: "Inquilino CBuilding 004", 
-                    apartament: "403", 
-                    number: "1", 
+                {
+                    id: '0',
+                    name: "Inquilino CBuilding 004",
+                    apartament: "403",
+                    number: "1",
                     phone: "987654321",
                     dni: "887654321",
                     email: "user@email.com",
@@ -156,7 +172,7 @@ export default function Tenants() {
                     debet: true,
                     forgotPassword: true
                 },
-                
+
             ]
         }
     ]
@@ -222,9 +238,9 @@ export default function Tenants() {
                         </View>
                         <TouchableHighlight style={styles.saveBtn}
                             onPress={() => {
-                                    setDisabled(true)
-                                    saveNewUser()
-                                }}>
+                                setDisabled(true)
+                                saveNewUser()
+                            }}>
                             <Text style={styles.txtBtn}>Guardar</Text>
                         </TouchableHighlight>
                     </ScrollView>

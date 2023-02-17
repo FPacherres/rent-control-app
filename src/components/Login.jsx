@@ -1,12 +1,12 @@
 import React from 'react'
 import { useFonts } from 'expo-font'
+import { View, Text, TouchableOpacity, TextInput, Alert, StyleSheet, ImageBackground, Image, useColorScheme } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 // Firebase
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import app from '../firebase'
-import { View, Text, TouchableOpacity, TextInput, Alert, StyleSheet, ImageBackground, Image, useColorScheme } from 'react-native';
 
-import { useNavigation } from '@react-navigation/native';
 
 
 export default function LoginScreen() {
@@ -29,19 +29,6 @@ export default function LoginScreen() {
 
   
   if (!fontsCustom) return null
-  
-  const handleCreateAccount = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential)=> {
-      console.log('Account created')
-      const user = userCredential.user
-      console.log(user)
-    })
-    .catch(error => {
-      console.log(error)
-      Alert.alert(error.message)
-    })
-  }
 
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
