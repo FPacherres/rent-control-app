@@ -3,8 +3,7 @@ import { useFonts } from 'expo-font'
 
 // Firebase
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
-import { initializeApp } from 'firebase/app'
-import { firebaseConfig } from '../../firebase-config';
+import app from '../firebase'
 import { View, Text, TouchableOpacity, TextInput, Alert, StyleSheet, ImageBackground, Image, useColorScheme } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
@@ -17,7 +16,6 @@ export default function LoginScreen() {
   const [forgotPassword, SetForgotPassword] = React.useState(false)
   const navigation = useNavigation()
   
-  const app = initializeApp(firebaseConfig)
   const auth = getAuth(app)
 
   const [fontsCustom] = useFonts({

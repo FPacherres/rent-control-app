@@ -1,17 +1,94 @@
-import React, { useState, useEffect } from 'react'
-import { SafeAreaView, SectionList, StyleSheet, View, Text, TouchableOpacity, Modal, TouchableHighlight } from 'react-native'
+import React, { useState } from 'react'
+import { SafeAreaView, SectionList, StyleSheet, View, Text, Alert, Modal, TouchableHighlight } from 'react-native'
 import Constants from 'expo-constants'
 import CardTenant from '../components/CardTenant'
 import { useFonts } from 'expo-font'
 import Title from '../components/Title'
-import MainBtn from '../components/MainBtn'
-import InputCustom from '../components/InputCustom'
-import CardWithActions from '../components/CardWithActions'
+import { ScrollView, TextInput } from 'react-native-gesture-handler'
+import app from '../firebase'
+import { getFirestore, collection, addDoc } from 'firebase/firestore'
 
 // const typeUser = 'SuperAdmi'
 const typeUser = 'Admi'
 
 export default function Tenants() {
+
+    const db = getFirestore(app)
+
+    const [disabled, setDisabled] = useState(false)
+
+    const [state, setState] = useState({
+        name: '',
+        dni: '',
+        phone: '',
+        email: '',
+        password: '',
+        number: '',
+        apartament: ''
+    })
+    const handleChangeText = (property, value) => {
+        setState({ ...state, [property]: value })
+    }
+
+    const saveNewUser = async () => {
+        try {
+          if (validationFormNewUser(state)) {
+            // setDisabled(true)
+            const user = await addDoc(collection(db, 'users'),{
+              name: state.name,
+              dni: state.dni,
+              phone: state.phone,
+              email: state.email,
+              password: state.password,
+              number: state.number,
+              apartament: state.apartament,
+              typeUser: 'Normal',
+              debet: false,
+              forgotPassword: false
+            });
+            Alert.alert('Inquilino guardado.');
+            setShowModal(false);
+            console.log(user);
+            setDisabled(false)
+          }
+        } catch (error) {
+          console.error('Error al guardar el nuevo usuario:', error);
+          Alert.alert(error)
+        }
+      }
+
+    const validationFormNewUser = (obj) => {
+        if (obj.name === '') {
+            Alert.alert('Falta ingresar el nombre.')
+            return false
+        }
+        if (obj.dni.length !== 8) {
+            Alert.alert('Falta ingresar el dni con 8 caracteres.')
+            return false
+        }
+        if (obj.phone.length !== 9) {
+            Alert.alert('Falta ingresar el número de teléfono con 9 caracteres.')
+            return false
+        }
+        if (obj.email === '') {
+            Alert.alert('Falta ingresar el correo electrónico.')
+            return false
+        }
+        if (obj.password.length < 6) {
+            Alert.alert('Falta ingresar la contraseña con mas de 6 caraccteres.')
+            return false
+        }
+        if (obj.number === '') {
+            Alert.alert('Falta ingresar el n° de number.')
+            return false
+        }
+        if (obj.apartament === '') {
+            Alert.alert('Falta ingresar el n° de departamento.')
+            return false
+        }
+        return true
+    }
+
     const [showModal, setShowModal] = useState(false)
     const [typeAction, setTypeAction] = useState('newUser')
     const [fontsCustom] = useFonts({
@@ -20,161 +97,226 @@ export default function Tenants() {
         Medium: require("../../assets/fonts/Poppins-Medium.ttf")
     })
     if (!fontsCustom) return null
-    if (typeUser === 'SuperAdmi') {
-        const DATA = [
-            {
-                title: 'Inquilinos',
-                data: [
-                    { id: '0', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
-                    { id: '1', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
-                    { id: '2', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
-                    { id: '3', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
-                    { id: '4', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
-                    { id: '5', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
-                    { id: '6', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
-                    { id: '7', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
-                    { id: '8', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
-                    { id: '9', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
-                    { id: '10', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" }
-                ]
-            }
-        ]
-        return (
-            <SafeAreaView style={styles.container}>
-                <SectionList
-                    sections={DATA}
-                    keyExtractor={(item, index) => item + index}
-                    renderItem={({ item }) => <CardTenant data={item} />}
-                    renderSectionHeader={({ section: { title } }) => (
-                        <Title title={title} />
-                    )}
-                />
-            </SafeAreaView>
-        )
-    }
-    if (typeUser === 'Admi') {
-        let currentUserId = 0
-        let INPUTS = [
-            {
-                title: 'Registrar Inquilino',
-                action: 'Guardar',
-                data: [
-                    { id: '0', label: "Nombre", value: "", placeholder: "Nombre del Administrador" },
-                    { id: '1', label: "DNI", value: "", placeholder: "87654321" },
-                    { id: '2', label: "Teléfono", value: "", placeholder: "+51 987 654 321" },
-                    { id: '3', label: "N° Piso", value: "", placeholder: "4" },
-                    { id: '4', label: "N° Departamento", value: "", placeholder: "402" },
-                    { id: '5', label: "Correo", value: "", placeholder: "example@gmail.com" },
-                    { id: '6', label: "Contraseña", value: "", placeholder: "***********" }
-                ]
-            }
-        ]
-        let USERS = [
-            {
-                title: 'Inquilinos',
-                data: [
-                    { id: '0', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
-                    { id: '1', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
-                    { id: '2', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
-                    { id: '3', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
-                    { id: '4', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
-                    { id: '5', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
-                    { id: '6', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
-                    { id: '7', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" },
-                    { id: '8', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
-                    { id: '9', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", },
-                    { id: '10', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321" }
-                ]
-            }
-        ]
-        // const [FilteredUser, setFilteredUser] = useState([])
-        const editUser = (data) => {
-            USERS = data
-            setTypeAction('edit')
-            setShowModal(true)
+
+
+
+    const DATA = [
+        {
+            title: 'Inquilinos',
+            data: [
+                { 
+                    id: '0', 
+                    name: "Inquilino CBuilding 001", 
+                    apartament: "402", 
+                    number: "1", 
+                    phone: "987654321",
+                    dni: "887654321",
+                    email: "user@email.com",
+                    password: "sdfdasd9a0f8a0d",
+                    typeUser: 'Normal',
+                    debet: false,
+                    forgotPassword: true
+                },
+                { 
+                    id: '0', 
+                    name: "Inquilino CBuilding 002", 
+                    apartament: "403", 
+                    number: "1", 
+                    phone: "987654321",
+                    dni: "887654321",
+                    email: "user@email.com",
+                    password: "sdfdasd9a0f8a0d",
+                    typeUser: 'Normal',
+                    debet: true,
+                    forgotPassword: true
+                },
+                { 
+                    id: '0', 
+                    name: "Inquilino CBuilding 003", 
+                    apartament: "402", 
+                    number: "1", 
+                    phone: "987654321",
+                    dni: "887654321",
+                    email: "user@email.com",
+                    password: "sdfdasd9a0f8a0d",
+                    typeUser: 'Normal',
+                    debet: false,
+                    forgotPassword: false
+                },
+                { 
+                    id: '0', 
+                    name: "Inquilino CBuilding 004", 
+                    apartament: "403", 
+                    number: "1", 
+                    phone: "987654321",
+                    dni: "887654321",
+                    email: "user@email.com",
+                    password: "sdfdasd9a0f8a0d",
+                    typeUser: 'Normal',
+                    debet: true,
+                    forgotPassword: true
+                },
+                
+            ]
         }
-        // const idUser = (id) => {
-        //     useEffect(()=> FilteredUser([USERS[0].data.find(d => d.id === id)]))
-        // }
-        return (
-            <SafeAreaView style={[styles.container, { position: "relative" }]}>
-                <SectionList
-                    sections={USERS}
-                    keyExtractor={(item, index) => item + index}
-                    renderItem={({ item }) => <CardWithActions data={item} edit={true} editUser={editUser} idUser={idUser} />}
-                    renderSectionHeader={() => (
-                        <Title title="Registrar Inquilino" />
-                    )}
-                    renderSectionFooter={() => (
-                        <View style={{ height: 120 }}></View>
-                    )}
-                />
-                <TouchableHighlight style={styles.FloatBtn}
-                    onPress={() => {
-                        setShowModal(true)
-                        setTypeAction("newUser")
-                    }}>
-                    <Text style={{ fontSize: 48, fontFamily: "Regular" }}>+</Text>
-                </TouchableHighlight>
-                <Modal
-                    animationType="slide"
-                    // onDismiss={() => } cada vez que se cierra
-                    // onShow={() => } cada vez que se abre
-                    // transparent
-                    visible={showModal}
-                >
-                    {typeAction === "newUser"
-                        ?
-                        <SafeAreaView style={styles.Modal}>
-                            <SectionList
-                                sections={INPUTS}
-                                keyExtractor={(item, index) => item + index}
-                                renderItem={({ item }) => <InputCustom input={item} pad={true} numeric={false} />}
-                                renderSectionHeader={({ section: { title } }) => (
-                                    <View>
-                                        <TouchableOpacity style={{ paddingBottom: 20, paddingLeft: 20 }}
-                                            onPress={() => setShowModal(false)}>
-                                            <Text style={{ fontFamily: "Light" }}>Regresar</Text>
-                                        </TouchableOpacity>
-                                        <Title title={title} modal={true} />
-                                    </View>
-                                )}
-                                renderSectionFooter={({ section: { action } }) => (
-                                    <MainBtn title={action} />
-                                )}
-                            />
-                        </SafeAreaView>
-                        :
-                        <SafeAreaView style={styles.Modal}>
-                            <SectionList
-                                sections={FilteredUser}
-                                keyExtractor={(item, index) => item + index}
-                                renderItem={({ item }) => <InputCustom input={item} pad={true} numeric={false} />}
-                                renderSectionHeader={({ section: { title } }) => (
-                                    <View>
-                                        <TouchableOpacity style={{ paddingBottom: 20, paddingLeft: 20 }}
-                                            onPress={() => setShowModal(false)}>
-                                            <Text style={{ fontFamily: "Light" }}>Regresar</Text>
-                                        </TouchableOpacity>
-                                    <Title title="Editar Inquilino" modal={true} />
-                                    </View>
-                                )}
-                                renderSectionFooter={({ section: { action } }) => (
-                                    <MainBtn title={action} />
-                                )}
-                            />
-                        </SafeAreaView>
-                    }
-                </Modal>
-            </SafeAreaView>
-        )
-    }
+    ]
+    return (
+        <SafeAreaView style={styles.container}>
+            <SectionList
+                sections={DATA}
+                keyExtractor={(item, index) => item + index}
+                renderItem={({ item }) => <CardTenant data={item} view={"tenants"} />}
+                renderSectionHeader={({ section: { title } }) => (
+                    <Title title={title} />
+                )}
+            />
+            <TouchableHighlight style={styles.FloatBtn}
+                disabled={disabled}
+                onPress={() => {
+                    setShowModal(true)
+                    setTypeAction('newUser')
+                }}>
+                <Text style={{ fontSize: 48, fontFamily: "Regular" }}>+</Text>
+            </TouchableHighlight>
+            <Modal
+                animationType="slide"
+                visible={showModal}
+            >
+                {typeAction === "newUser"
+                    ?
+                    <ScrollView style={styles.container}>
+                        <TouchableHighlight style={styles.btnBack}
+                            onPress={() => {
+                                setShowModal(false)
+                            }}>
+                            <Text style={{ fontSize: 16, fontFamily: "Regular" }}>Regresar</Text>
+                        </TouchableHighlight>
+                        <Text style={styles.title}>Crear Usuarios</Text>
+                        <View style={styles.inputGroup}>
+                            <Text style={styles.label}>Nombre</Text>
+                            <TextInput style={styles.input} placeholder='Nombre' onChangeText={(value) => handleChangeText('name', value)} />
+                        </View>
+                        <View style={styles.inputGroup}>
+                            <Text style={styles.label}>DNI</Text>
+                            <TextInput style={styles.input} placeholder='Dni' onChangeText={(value) => handleChangeText('dni', value)} />
+                        </View>
+                        <View style={styles.inputGroup}>
+                            <Text style={styles.label}>Teléfono</Text>
+                            <TextInput style={styles.input} placeholder='Telefono' onChangeText={(value) => handleChangeText('phone', value)} />
+                        </View>
+                        <View style={styles.inputGroup}>
+                            <Text style={styles.label}>Correo</Text>
+                            <TextInput style={styles.input} placeholder='Correo' onChangeText={(value) => handleChangeText('email', value)} />
+                        </View>
+                        <View style={styles.inputGroup}>
+                            <Text style={styles.label}>Contraseña</Text>
+                            <TextInput style={styles.input} placeholder='Contraseña' onChangeText={(value) => handleChangeText('password', value)} />
+                        </View>
+                        <View style={styles.inputGroup}>
+                            <Text style={styles.label}>N° de number</Text>
+                            <TextInput style={styles.input} placeholder='number' onChangeText={(value) => handleChangeText('number', value)} />
+                        </View>
+                        <View style={styles.inputGroup}>
+                            <Text style={styles.label}>Departamento</Text>
+                            <TextInput style={styles.input} placeholder='Departamento' onChangeText={(value) => handleChangeText('apartament', value)} />
+                        </View>
+                        <TouchableHighlight style={styles.saveBtn}
+                            onPress={() => {
+                                    setDisabled(true)
+                                    saveNewUser()
+                                }}>
+                            <Text style={styles.txtBtn}>Guardar</Text>
+                        </TouchableHighlight>
+                    </ScrollView>
+                    :
+                    <ScrollView style={styles.container}>
+                        <TouchableHighlight style={styles.btnBack}
+                            onPress={() => {
+                                setShowModal(false)
+                            }}>
+                            <Text style={{ fontSize: 16, fontFamily: "Regular" }}>Regresar</Text>
+                        </TouchableHighlight>
+                        <Text style={styles.title}>Editar Usuario</Text>
+                        <View style={styles.inputGroup}>
+                            <Text style={styles.label}>Nombre</Text>
+                            <TextInput style={styles.input} placeholder='Nombre' onChangeText={(value) => handleChangeText('name', value)} />
+                        </View>
+                        <View style={styles.inputGroup}>
+                            <Text style={styles.label}>DNI</Text>
+                            <TextInput style={styles.input} placeholder='Dni' onChangeText={(value) => handleChangeText('dni', value)} />
+                        </View>
+                        <View style={styles.inputGroup}>
+                            <Text style={styles.label}>Teléfono</Text>
+                            <TextInput style={styles.input} placeholder='Telefono' onChangeText={(value) => handleChangeText('phone', value)} />
+                        </View>
+                        <View style={styles.inputGroup}>
+                            <Text style={styles.label}>Correo</Text>
+                            <TextInput style={styles.input} placeholder='Correo' onChangeText={(value) => handleChangeText('email', value)} />
+                        </View>
+                        <View style={styles.inputGroup}>
+                            <Text style={styles.label}>Contraseña</Text>
+                            <TextInput style={styles.input} placeholder='Contraseña' onChangeText={(value) => handleChangeText('password', value)} />
+                        </View>
+                        <View style={styles.inputGroup}>
+                            <Text style={styles.label}>N° de number</Text>
+                            <TextInput style={styles.input} placeholder='number' onChangeText={(value) => handleChangeText('number', value)} />
+                        </View>
+                        <View style={styles.inputGroup}>
+                            <Text style={styles.label}>Departamento</Text>
+                            <TextInput style={styles.input} placeholder='Departamento' onChangeText={(value) => handleChangeText('apartament', value)} />
+                        </View>
+                        <TouchableHighlight style={styles.saveBtn}
+                            onPress={() => {
+                                console.log(state)
+                                // setShowModal(false)
+                            }}>
+                            <Text style={styles.txtBtn}>Guardar</Text>
+                        </TouchableHighlight>
+                    </ScrollView>
+                }
+            </Modal>
+        </SafeAreaView>
+    )
 }
 
 const styles = StyleSheet.create({
     container: {
         width: '100%',
         marginTop: Constants.statusBarHeight,
+        paddingHorizontal: 20,
+        paddingBottom: 20,
+        height: '100%'
+    },
+    title: {
+        fontSize: 44,
+        textAlign: 'center',
+        paddingVertical: 20
+    },
+    inputGroup: {
+        marginVertical: 10
+    },
+    input: {
+        backgroundColor: "#000000",
+        paddingHorizontal: 20,
+        paddingVertical: 8,
+        marginTop: 10,
+        borderRadius: 8,
+        fontFamily: 'Light'
+    },
+    label: {
+        fontFamily: 'Regular'
+    },
+    saveBtn: {
+        marginTop: 30,
+        marginBottom: 50,
+        backgroundColor: "#295065",
+        paddingVertical: 15,
+        borderRadius: 10
+    },
+    txtBtn: {
+        fontFamily: 'Regular',
+        fontSize: 24,
+        textAlign: 'center'
     },
     FloatBtn: {
         position: "absolute",

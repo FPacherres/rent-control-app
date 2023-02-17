@@ -4,13 +4,7 @@ import { useFonts } from 'expo-font'
 
 import { PhoneIcon, UserIcon } from "react-native-heroicons/outline"
 
-export default function CardTenant({ data, edit, editUser, idUser }) {
-    const action = () => {
-        if (edit) {
-            editUser(data)
-            idUser(data.id)
-        }
-    }
+export default function CardTenant({ data, edit}) {
     const [fontsCustom] = useFonts({
         Light: require("../../assets/fonts/Poppins-ExtraLight.ttf"),
         Regular: require("../../assets/fonts/Poppins-Regular.ttf"),
@@ -35,8 +29,7 @@ export default function CardTenant({ data, edit, editUser, idUser }) {
                     </View>
                 </View>
                 <TouchableHighlight
-                    style={styles.btn}
-                    onPress={action}>
+                    style={styles.btn}>
                     {edit ?
                         <Text style={{ fontFamily: "Medium", fontSize: 16 }}>Editar</Text>
                         :
