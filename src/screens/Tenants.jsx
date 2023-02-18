@@ -8,7 +8,7 @@ import { ScrollView, TextInput } from 'react-native-gesture-handler'
 
 
 import app from '../firebase'
-import { getFirestore, collection, addDoc } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 
 // const typeUser = 'SuperAdmi'
@@ -16,9 +16,31 @@ const typeUser = 'Admi'
 
 export default function Tenants() {
 
+    const [data, setData] = useState([
+        {
+            title: 'Inquilinos',
+            data: []
+        }
+    ])
+
     const auth = getAuth(app)
 
     const db = getFirestore(app)
+
+    const getUsers = async () => {
+        try {
+            const users = await getDocs(collection(db, "users"));
+            setData([
+                {
+                    title: 'Inquilinos',
+                    data: users.docs.map(doc => doc.data())
+                }
+            ]);
+        } catch (error) {
+            console.log(error);
+            Alert.alert(error.message);
+        }
+    }
 
     const [disabled, setDisabled] = useState(false)
 
@@ -64,6 +86,7 @@ export default function Tenants() {
                     id: userId
                 });
                 Alert.alert('Inquilino guardado.');
+                await getUsers()
                 setShowModal(false);
                 setDisabled(false)
             }
@@ -114,72 +137,10 @@ export default function Tenants() {
     })
     if (!fontsCustom) return null
 
-
-
-    const DATA = [
-        {
-            title: 'Inquilinos',
-            data: [
-                {
-                    id: '0',
-                    name: "Inquilino CBuilding 001",
-                    apartament: "402",
-                    number: "1",
-                    phone: "987654321",
-                    dni: "887654321",
-                    email: "user@email.com",
-                    password: "sdfdasd9a0f8a0d",
-                    typeUser: 'Normal',
-                    debet: false,
-                    forgotPassword: true
-                },
-                {
-                    id: '0',
-                    name: "Inquilino CBuilding 002",
-                    apartament: "403",
-                    number: "1",
-                    phone: "987654321",
-                    dni: "887654321",
-                    email: "user@email.com",
-                    password: "sdfdasd9a0f8a0d",
-                    typeUser: 'Normal',
-                    debet: true,
-                    forgotPassword: true
-                },
-                {
-                    id: '0',
-                    name: "Inquilino CBuilding 003",
-                    apartament: "402",
-                    number: "1",
-                    phone: "987654321",
-                    dni: "887654321",
-                    email: "user@email.com",
-                    password: "sdfdasd9a0f8a0d",
-                    typeUser: 'Normal',
-                    debet: false,
-                    forgotPassword: false
-                },
-                {
-                    id: '0',
-                    name: "Inquilino CBuilding 004",
-                    apartament: "403",
-                    number: "1",
-                    phone: "987654321",
-                    dni: "887654321",
-                    email: "user@email.com",
-                    password: "sdfdasd9a0f8a0d",
-                    typeUser: 'Normal',
-                    debet: true,
-                    forgotPassword: true
-                },
-
-            ]
-        }
-    ]
     return (
         <SafeAreaView style={styles.container}>
             <SectionList
-                sections={DATA}
+                sections={data}
                 keyExtractor={(item, index) => item + index}
                 renderItem={({ item }) => <CardTenant data={item} view={"tenants"} />}
                 renderSectionHeader={({ section: { title } }) => (
@@ -299,8 +260,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         marginTop: Constants.statusBarHeight,
-        paddingHorizontal: 20,
-        paddingBottom: 20,
+        paddingBottom: 80,
         height: '100%'
     },
     title: {

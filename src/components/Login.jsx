@@ -34,8 +34,8 @@ export default function LoginScreen() {
     signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       console.log('Signed in!')
-      const user = userCredential.user
-      console.log(user)
+      // const user = userCredential.user
+      // console.log(user)
       navigation.navigate('MyDrawer')
     })
     .catch(error => {

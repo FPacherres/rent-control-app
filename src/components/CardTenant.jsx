@@ -8,6 +8,8 @@ export default function CardTenant({ data, view }) {
     const typeUser = 'SuperAdmi'
     // const typeUser = 'Admi'
 
+    console.log(data)
+
     const [fontsCustom] = useFonts({
         Light: require("../../assets/fonts/Poppins-ExtraLight.ttf"),
         Regular: require("../../assets/fonts/Poppins-Regular.ttf"),
@@ -19,7 +21,7 @@ export default function CardTenant({ data, view }) {
             <View style={[styles.snippet, { width: typeUser === "SuperAdmi" && view === "tenants" ? "85%" : "100%" }]}>
                 <View style={{ display: "flex", flexDirection: "row" }}>
                     <View style={{ paddingTop: 3, width: 25 }}><UserIcon color="#FFFFFF" fill="transparent" size={20} /></View>
-                    <Text style={styles.title}>Inquilino 001</Text>
+                    <Text style={styles.title}>{data.name}</Text>
                 </View>
                 <View style={styles.info}>
                     <View>
