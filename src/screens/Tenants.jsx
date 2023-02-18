@@ -42,6 +42,9 @@ export default function Tenants() {
         }
     }
 
+    // revisar
+    getUsers()
+
     const [disabled, setDisabled] = useState(false)
 
     const [state, setState] = useState({

@@ -1,39 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { SafeAreaView, SectionList, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
 import CardTenant from '../components/CardTenant'
 import Title from '../components/Title'
 
+import app from '../firebase'
+import { getFirestore, collection, getDocs } from 'firebase/firestore'
+
 
 // const typeUser = 'SuperAdmi'
-// const typeUser = 'Admi'
-const typeUser = 'Normal'
+const typeUser = 'Admi'
 
 export default function Payments() {
-    const DATA = [
-        {   
+    const [data, setData] = useState([
+        {
             title: 'Pagos',
-            data: [
-                { id: '0', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", pay: true },
-                { id: '1', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", pay: true },
-                { id: '2', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", pay: false },
-                { id: '3', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", pay: true },
-                { id: '4', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", pay: false },
-                { id: '5', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", pay: false },
-                { id: '6', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", pay: true },
-                { id: '7', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", pay: true },
-                { id: '8', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", pay: false },
-                { id: '9', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", pay: false },
-                { id: '10', name: "Inquilino CBuilding 001", apartament: "1", number: "402", phone: "987654321", pay: true }
-            ]
+            data: []
         }
-    ]
+    ])
+
+    const db = getFirestore(app)
+
+    const getUsers = async () => {
+        try {
+            const users = await getDocs(collection(db, "users"));
+            setData([
+                {
+                    title: 'Pagos',
+                    data: users.docs.map(doc => doc.data())
+                }
+            ]);
+        } catch (error) {
+            console.log(error);
+            Alert.alert(error.message);
+        }
+    }
+
+    // getUsers()
+
     return (
         <SafeAreaView style={styles.container}>
             <SectionList
-                sections={DATA}
+                sections={data}
                 keyExtractor={(item, index) => item + index}
-                renderItem={({ item }) => <CardTenant data={item} deleteAction={true} />}
+                renderItem={({ item }) => <CardTenant data={item} view={"payments"} />}
                 renderSectionHeader={({ section: { title } }) => (
                     <Title title={title} />
                 )}
@@ -46,5 +56,6 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         marginTop: Constants.statusBarHeight,
+        paddingBottom: 50
     }
 })
