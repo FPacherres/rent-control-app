@@ -5,7 +5,7 @@ import CardTenant from '../components/CardTenant'
 import Title from '../components/Title'
 
 import app from '../firebase'
-import { getFirestore, collection, getDocs } from 'firebase/firestore'
+import { getFirestore, collection, getDocs, setDoc, doc } from 'firebase/firestore'
 
 
 // const typeUser = 'SuperAdmi'
@@ -19,6 +19,28 @@ export default function Payments() {
         }
     ])
 
+    const [currentUser, setCurrentUser] = useState({})
+
+    const [state, setState] = useState({
+        name: '',
+        dni: '',
+        phone: '',
+        email: '',
+        password: '',
+        number: '',
+        apartament: '',
+        key: null,
+        debet: false,
+        forgotPassword: false,
+        typeUser: "Normal"
+    })
+    
+    const userEdit = async (id) => {
+        const user = data[0].data.find(d=> d.id === id)
+        setCurrentUser({...user, debet: false})
+        await updateUser()
+    }
+
     const db = getFirestore(app)
 
     const getUsers = async () => {
@@ -27,7 +49,11 @@ export default function Payments() {
             setData([
                 {
                     title: 'Pagos',
-                    data: users.docs.map(doc => doc.data())
+                    data: users.docs.map(doc => {
+                        let obj = doc.data()
+                        const key = doc._document.key.path.segments[6]
+                        return {...obj, key: key}
+                    })
                 }
             ]);
         } catch (error) {
@@ -36,14 +62,24 @@ export default function Payments() {
         }
     }
 
-    // getUsers()
+    async function updateUser() {
+        try {
+            await setDoc(doc(db, "users", `${currentUser.key}`), currentUser);
+            Alert.alert("Usuario actualizado")
+            getUsers()
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    getUsers()
 
     return (
         <SafeAreaView style={styles.container}>
             <SectionList
                 sections={data}
                 keyExtractor={(item, index) => item + index}
-                renderItem={({ item }) => <CardTenant data={item} view={"payments"} />}
+                renderItem={({ item }) => <CardTenant data={item} view={"payments"} userEdit={userEdit} />}
                 renderSectionHeader={({ section: { title } }) => (
                     <Title title={title} />
                 )}

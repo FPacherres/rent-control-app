@@ -1,4 +1,4 @@
-import React, {useState } from 'react'
+import React, { useState } from 'react'
 import { Text, StyleSheet, View, TouchableOpacity, Alert } from 'react-native'
 import { useFonts } from 'expo-font'
 
@@ -11,7 +11,7 @@ export default function CardTenant({ data, view, userEdit }) {
     const [isDisabled, setIsDisabled] = useState(!data.debet);
 
     const editUserById = () => {
-        userEdit(data.id) 
+        userEdit(data.id)
     }
 
     console.log(data)
@@ -63,9 +63,10 @@ export default function CardTenant({ data, view, userEdit }) {
                                     </TouchableOpacity>
                                     :
                                     <TouchableOpacity
-                                        disabled={isDisabled}
                                         style={styles.btnDebet}
-                                        onPress={() => Alert.alert('Simple Button pressed')}
+                                        onPress={() => { if (data.debet){
+                                            editUserById()
+                                        }}}
                                     >
                                         <Text>{data.debet ? "No Pago" : "Pago"}</Text>
                                     </TouchableOpacity>
