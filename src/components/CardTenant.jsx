@@ -14,8 +14,6 @@ export default function CardTenant({ data, view, userEdit }) {
         userEdit(data.id)
     }
 
-    console.log(data)
-
     const [fontsCustom] = useFonts({
         Light: require("../../assets/fonts/Poppins-ExtraLight.ttf"),
         Regular: require("../../assets/fonts/Poppins-Regular.ttf"),

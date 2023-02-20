@@ -72,7 +72,7 @@ export default function Payments() {
         }
     }
 
-    getUsers()
+    // getUsers()
 
     return (
         <SafeAreaView style={styles.container}>
