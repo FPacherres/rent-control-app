@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { View, SafeAreaView, SectionList, StyleSheet, Dimensions, Text, ScrollView, TouchableHighlight, TextInput, Alert } from 'react-native'
+import { View, StyleSheet, Dimensions, Text, ScrollView, TouchableHighlight, TextInput, Alert } from 'react-native'
 import Constants from 'expo-constants'
-import InputCustom from '../components/InputCustom'
-import TextInfo from '../components/TextInfo'
-import MainBtn from '../components/MainBtn'
 import Title from '../components/Title'
-import MessageStatusTenant from '../components/MessageStatusTenant'
+import { EyeIcon, EyeSlashIcon } from "react-native-heroicons/outline"
+
 
 
 import app from '../firebase'
@@ -13,9 +11,9 @@ import { getFirestore, collection, getDoc, setDoc, doc } from 'firebase/firestor
 
 let ScreenHeight = Dimensions.get("window").height
 
-const typeUser = 'SuperAdmi'
+// const typeUser = 'SuperAdmi'
 // const typeUser = 'Admi'
-// const typeUser = 'Normal'
+const typeUser = 'Normal'
 
 export default function Home() {
     if (typeUser === 'SuperAdmi') {
@@ -147,63 +145,156 @@ export default function Home() {
             </ScrollView>
         )
     }
-    // if (typeUser === 'Admi') {
-    //     const DATA = [
-    //         {
-    //             title: 'Información Básica',
-    //             action: 'Guardar',
-    //             data: [
-    //                 { id: '0', label: "Nombre", value: "Eduardo Garcia" },
-    //                 { id: '1', label: "ruc", value: "87654321" },
-    //                 { id: '2', label: "Teléfono", value: "987 654 321" },
-    //                 { id: '3', label: "Correo", value: "egarcia@gmail.com" }
-    //             ]
-    //         }
-    //     ]
-    //     return (
-    //         <SafeAreaView style={styles.container}>
-    //             <SectionList
-    //                 sections={DATA}
-    //                 keyExtractor={(item, index) => item + index}
-    //                 renderItem={({ item }) => <TextInfo label={item.label} value={item.value} />}
-    //                 renderSectionHeader={({ section: { title } }) => (
-    //                     <Title title={title} />
-    //                 )}
-    //             />
-    //         </SafeAreaView>
-    //     )
-    // }
-    // if (typeUser === 'Normal') {
-    //     const DATA = [
-    //         {
-    //             title: 'Información Básica',
-    //             action: 'Guardar',
-    //             data: [
-    //                 { id: '0', label: "Nombre", value: "Eduardo Garcia" },
-    //                 { id: '1', label: "ruc", value: "87654321" },
-    //                 { id: '2', label: "Teléfono", value: "987 654 321" },
-    //                 { id: '3', label: "Correo", value: "egarcia@gmail.com" },
-    //                 { id: '4', label: "N° Piso / N° de Dpto", value: "Piso 2 / Dpto 402" }
-    //             ],
-    //             status: true
-    //         }
-    //     ]
-    //     return (
-    //         <SafeAreaView style={styles.container}>
-    //             <SectionList
-    //                 sections={DATA}
-    //                 keyExtractor={(item, index) => item + index}
-    //                 renderItem={({ item }) => <TextInfo label={item.label} value={item.value} />}
-    //                 renderSectionHeader={({ section: { title } }) => (
-    //                     <Title title={title} />
-    //                 )}
-    //                 renderSectionFooter={({ section: { status } }) => (
-    //                     <MessageStatusTenant status={status} />
-    //                 )}
-    //             />
-    //         </SafeAreaView>
-    //     )
-    // }
+    if (typeUser === 'Admi') {
+        const db = getFirestore(app)
+        const KEY = "G7gZkLu8zrQd0Xtl4Al4"
+        const [data, setData] = useState({
+            name: '',
+            dni: '',
+            phone: '',
+            email: '',
+            password: '',
+            typeUser: "Admi"
+        })
+        const [showPassword, setShowPassword] = useState(false)
+        const getUser = async () => {
+            try {
+                const docRef = doc(collection(db, "superUsers"), KEY);
+                const userDoc = await getDoc(docRef);
+
+                if (userDoc.exists()) {
+                    setData(userDoc.data());
+                } else {
+                    console.log("El documento no existe");
+                }
+            } catch (error) {
+                console.log(error);
+                Alert.alert(error.message);
+            }
+        }
+        useEffect(() => {
+            getUser()
+            return () => setData({})
+        }, [])
+        return (
+            <ScrollView style={[styles.container, { paddingHorizontal: 20 }]}>
+                <Title title={"Informacion Básica"} noPadX={true} />
+                <View style={[styles.inputGroup, styles.textContainer]}>
+                    <Text style={styles.label}>Nombre</Text>
+                    <Text style={styles.value}>{data.name}</Text>
+                </View>
+                <View style={[styles.inputGroup, styles.textContainer]}>
+                    <Text style={styles.label}>DNI</Text>
+                    <Text style={styles.value}>{data.dni}</Text>
+                </View>
+                <View style={[styles.inputGroup, styles.textContainer]}>
+                    <Text style={styles.label}>Telefono</Text>
+                    <Text style={styles.value}>{data.phone}</Text>
+                </View>
+                <View style={[styles.inputGroup, styles.textContainer]}>
+                    <Text style={styles.label}>Correo</Text>
+                    <Text style={styles.value}>{data.email}</Text>
+                </View>
+                <View style={[styles.inputGroup, styles.textContainer]}>
+                    <Text style={styles.label}>Contraseña</Text>
+                    <View style={styles.passwordContainer}>
+                        <Text style={styles.value}>{showPassword ? data.password : "*********"}</Text>
+                        <TouchableHighlight
+                            style={styles.btnPassword}
+                            onPress={() => {
+                                setShowPassword(!showPassword)
+                            }}>
+                            {
+                                showPassword
+                                    ?
+                                    <EyeSlashIcon color="#FFFFFF" fill="transparent" size={24} />
+                                    :
+                                    <EyeIcon color="#FFFFFF" fill="transparent" size={24} />
+                            }
+                        </TouchableHighlight>
+                    </View>
+                </View>
+            </ScrollView>
+        )
+    }
+    if (typeUser === 'Normal') {
+        const db = getFirestore(app)
+        const KEY = "FqTIrCJSNaKkVUe2m7nw"
+        const [data, setData] = useState({
+            name: '',
+            dni: '',
+            phone: '',
+            email: '',
+            password: '',
+            number: '',
+            apartament: '',
+            typeUser: "Normal"
+        })
+        const [showPassword, setShowPassword] = useState(false)
+        const getUser = async () => {
+            try {
+                const docRef = doc(collection(db, "users"), KEY);
+                const userDoc = await getDoc(docRef);
+
+                if (userDoc.exists()) {
+                    setData(userDoc.data());
+                } else {
+                    console.log("El usuario no existe");
+                }
+            } catch (error) {
+                console.log(error);
+                Alert.alert(error.message);
+            }
+        }
+        useEffect(() => {
+            getUser()
+            return () => setData({})
+        }, [])
+        return (
+            <ScrollView style={[styles.container, { paddingHorizontal: 20 }]}>
+                <Title title={"Informacion Básica"} noPadX={true} />
+                <View style={[styles.inputGroup, styles.textContainer]}>
+                    <Text style={styles.label}>Nombre</Text>
+                    <Text style={styles.value}>{data.name}</Text>
+                </View>
+                <View style={[styles.inputGroup, styles.textContainer]}>
+                    <Text style={styles.label}>DNI</Text>
+                    <Text style={styles.value}>{data.dni}</Text>
+                </View>
+                <View style={[styles.inputGroup, styles.textContainer]}>
+                    <Text style={styles.label}>Telefono</Text>
+                    <Text style={styles.value}>{data.phone}</Text>
+                </View>
+                <View style={[styles.inputGroup, styles.textContainer]}>
+                    <Text style={styles.label}>N° de Piso/N° de Departamento</Text>
+                    <Text style={styles.value}>{data.number}/{data.apartament}</Text>
+                </View>
+                <View style={[styles.inputGroup, styles.textContainer]}>
+                    <Text style={styles.label}>Correo</Text>
+                    <Text style={styles.value}>{data.email}</Text>
+                </View>
+                <View style={[styles.inputGroup, styles.textContainer]}>
+                    <Text style={styles.label}>Contraseña</Text>
+                    <View style={styles.passwordContainer}>
+                        <Text style={styles.value}>{showPassword ? data.password : "*********"}</Text>
+                        <TouchableHighlight
+                            style={styles.btnPassword}
+                            onPress={() => {
+                                setShowPassword(!showPassword)
+                            }}>
+                            {
+                                showPassword
+                                    ?
+                                    <EyeSlashIcon color="#FFFFFF" fill="transparent" size={24} />
+                                    :
+                                    <EyeIcon color="#FFFFFF" fill="transparent" size={24} />
+                            }
+                        </TouchableHighlight>
+                    </View>
+                </View>
+            </ScrollView>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -224,7 +315,12 @@ const styles = StyleSheet.create({
         fontFamily: 'Light'
     },
     label: {
-        fontFamily: 'Regular'
+        fontFamily: 'Regular',
+    },
+    value: {
+        fontFamily: 'Medium',
+        fontSize: 22,
+        textAlign: "right",
     },
     title: {
         fontSize: 44,
@@ -243,4 +339,19 @@ const styles = StyleSheet.create({
         fontSize: 24,
         textAlign: 'center'
     },
+    textContainer: {
+        width: "100%",
+        marginBottom: 45,
+        paddingBottom: 15,
+        borderBottomColor: "#3c3c3c",
+        borderBottomWidth: 1
+    },
+    passwordContainer: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "flex-end"
+    },
+    btnPassword: {
+        paddingLeft: 10
+    }
 })
