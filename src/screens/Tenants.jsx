@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { SafeAreaView, SectionList, StyleSheet, View, Text, Alert, Modal, TouchableHighlight } from 'react-native'
 import Constants from 'expo-constants'
 import CardTenant from '../components/CardTenant'
@@ -66,8 +66,10 @@ export default function Tenants() {
         }
     }
 
-    // revisar
-    // getUsers()
+    useEffect(() => {
+        getUsers()
+        return () => setData([])
+    }, [])
 
     const handleChangeText = (property, value) => {
         setState({ ...state, [property]: value })

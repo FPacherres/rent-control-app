@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { SafeAreaView, SectionList, StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
 import CardTenant from '../components/CardTenant'
@@ -72,7 +72,10 @@ export default function Payments() {
         }
     }
 
-    // getUsers()
+    useEffect(() => {
+        getUsers()
+        return () => setData([])
+    }, [])
 
     return (
         <SafeAreaView style={styles.container}>
