@@ -1,12 +1,18 @@
-import React from 'react'
+import React, {useState } from 'react'
 import { Text, StyleSheet, View, TouchableOpacity, Alert } from 'react-native'
 import { useFonts } from 'expo-font'
 
 import { PhoneIcon, UserIcon, TrashIcon, ArrowPathIcon } from "react-native-heroicons/outline"
 
-export default function CardTenant({ data, view }) {
+export default function CardTenant({ data, view, userEdit }) {
     // const typeUser = 'SuperAdmi'
     const typeUser = 'Admi'
+
+    const [isDisabled, setIsDisabled] = useState(!data.debet);
+
+    const editUserById = () => {
+        userEdit(data.id) 
+    }
 
     console.log(data)
 
@@ -50,15 +56,14 @@ export default function CardTenant({ data, view }) {
                                 typeUser === "Admi" && view === "tenants"
                                     ?
                                     <TouchableOpacity
-                                        disabled={data.debet}
                                         style={styles.btnDebet}
-                                        onPress={() => Alert.alert('Simple Button pressed')}
+                                        onPress={() => editUserById()}
                                     >
                                         <Text>Editar</Text>
                                     </TouchableOpacity>
                                     :
                                     <TouchableOpacity
-                                        disabled={data.debet}
+                                        disabled={isDisabled}
                                         style={styles.btnDebet}
                                         onPress={() => Alert.alert('Simple Button pressed')}
                                     >

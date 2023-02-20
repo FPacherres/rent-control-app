@@ -8,7 +8,7 @@ import { ScrollView, TextInput } from 'react-native-gesture-handler'
 
 
 import app from '../firebase'
-import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, getDocs, setDoc, doc } from 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 
 // const typeUser = 'SuperAdmi'
@@ -23,6 +23,26 @@ export default function Tenants() {
         }
     ])
 
+    const [showModal, setShowModal] = useState(false)
+    const [typeAction, setTypeAction] = useState('newUser')
+
+    const [isDisabled, setIsDisabled] = useState(false);
+    const [currentUser, setCurrentUser] = useState({})
+
+    const [state, setState] = useState({
+        name: '',
+        dni: '',
+        phone: '',
+        email: '',
+        password: '',
+        number: '',
+        apartament: '',
+        key: null,
+        debet: false,
+        forgotPassword: false,
+        typeUser: "Normal"
+    })
+
     const auth = getAuth(app)
 
     const db = getFirestore(app)
@@ -33,7 +53,11 @@ export default function Tenants() {
             setData([
                 {
                     title: 'Inquilinos',
-                    data: users.docs.map(doc => doc.data())
+                    data: users.docs.map(doc => {
+                        let obj = doc.data()
+                        const key = doc._document.key.path.segments[6]
+                        return {...obj, key: key}
+                    })
                 }
             ]);
         } catch (error) {
@@ -43,21 +67,32 @@ export default function Tenants() {
     }
 
     // revisar
-    getUsers()
+    // getUsers()
 
-    const [disabled, setDisabled] = useState(false)
-
-    const [state, setState] = useState({
-        name: '',
-        dni: '',
-        phone: '',
-        email: '',
-        password: '',
-        number: '',
-        apartament: ''
-    })
     const handleChangeText = (property, value) => {
         setState({ ...state, [property]: value })
+    }
+
+    const handleChangeTextEdit = (property, value) => {
+        setCurrentUser({ ...currentUser, [property]: value })
+    }
+
+    const userEdit = (id) => {
+        const user = data[0].data.find(d=> d.id === id)
+        setCurrentUser(user)
+        setTypeAction('editUser')
+        setShowModal(true)
+    }
+
+    async function updateCurrentUser() {
+        try {
+            await setDoc(doc(db, "users", `${currentUser.key}`), currentUser);
+            Alert.alert("Usuario actualizado")
+            getUsers()
+            setShowModal(false)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const handleCreateAccount = async () => {
@@ -66,14 +101,14 @@ export default function Tenants() {
             return userCredential.user.uid;
         } catch (error) {
             console.log(error);
-            Alert.alert(error.message);
+            Alert.alert(error.message)
         }
     }
 
     const saveNewUser = async () => {
         try {
             if (validationFormNewUser(state)) {
-                // setDisabled(true)
+                setIsDisabled(true)
                 const userId = await handleCreateAccount()
                 const newUser = await addDoc(collection(db, 'users'), {
                     name: state.name,
@@ -90,8 +125,8 @@ export default function Tenants() {
                 });
                 Alert.alert('Inquilino guardado.');
                 await getUsers()
-                setShowModal(false);
-                setDisabled(false)
+                setShowModal(false)
+                setIsDisabled(false)
             }
         } catch (error) {
             console.error('Error al guardar el nuevo usuario:', error);
@@ -131,8 +166,6 @@ export default function Tenants() {
         return true
     }
 
-    const [showModal, setShowModal] = useState(false)
-    const [typeAction, setTypeAction] = useState('newUser')
     const [fontsCustom] = useFonts({
         Light: require("../../assets/fonts/Poppins-ExtraLight.ttf"),
         Regular: require("../../assets/fonts/Poppins-Regular.ttf"),
@@ -145,13 +178,13 @@ export default function Tenants() {
             <SectionList
                 sections={data}
                 keyExtractor={(item, index) => item + index}
-                renderItem={({ item }) => <CardTenant data={item} view={"tenants"} />}
+                renderItem={({ item }) => <CardTenant data={item} view={"tenants"} userEdit={userEdit} />}
                 renderSectionHeader={({ section: { title } }) => (
                     <Title title={title} />
                 )}
             />
             <TouchableHighlight style={styles.FloatBtn}
-                disabled={disabled}
+                disabled={isDisabled}
                 onPress={() => {
                     setShowModal(true)
                     setTypeAction('newUser')
@@ -164,7 +197,7 @@ export default function Tenants() {
             >
                 {typeAction === "newUser"
                     ?
-                    <ScrollView style={styles.container}>
+                    <ScrollView style={[styles.container, {paddingHorizontal: 20}]}>
                         <TouchableHighlight style={styles.btnBack}
                             onPress={() => {
                                 setShowModal(false)
@@ -202,14 +235,13 @@ export default function Tenants() {
                         </View>
                         <TouchableHighlight style={styles.saveBtn}
                             onPress={() => {
-                                setDisabled(true)
                                 saveNewUser()
                             }}>
                             <Text style={styles.txtBtn}>Guardar</Text>
                         </TouchableHighlight>
                     </ScrollView>
                     :
-                    <ScrollView style={styles.container}>
+                    <ScrollView style={[styles.container, {paddingHorizontal: 20}]}>
                         <TouchableHighlight style={styles.btnBack}
                             onPress={() => {
                                 setShowModal(false)
@@ -219,36 +251,35 @@ export default function Tenants() {
                         <Text style={styles.title}>Editar Usuario</Text>
                         <View style={styles.inputGroup}>
                             <Text style={styles.label}>Nombre</Text>
-                            <TextInput style={styles.input} placeholder='Nombre' onChangeText={(value) => handleChangeText('name', value)} />
+                            <TextInput style={styles.input} placeholder='Nombre' value={currentUser.name} onChangeText={(value) => handleChangeTextEdit('name', value)} />
                         </View>
                         <View style={styles.inputGroup}>
                             <Text style={styles.label}>DNI</Text>
-                            <TextInput style={styles.input} placeholder='Dni' onChangeText={(value) => handleChangeText('dni', value)} />
+                            <TextInput style={styles.input} placeholder='Dni' value={currentUser.dni} onChangeText={(value) => handleChangeTextEdit('dni', value)} />
                         </View>
                         <View style={styles.inputGroup}>
                             <Text style={styles.label}>Teléfono</Text>
-                            <TextInput style={styles.input} placeholder='Telefono' onChangeText={(value) => handleChangeText('phone', value)} />
+                            <TextInput style={styles.input} placeholder='Telefono' value={currentUser.phone} onChangeText={(value) => handleChangeTextEdit('phone', value)} />
                         </View>
                         <View style={styles.inputGroup}>
                             <Text style={styles.label}>Correo</Text>
-                            <TextInput style={styles.input} placeholder='Correo' onChangeText={(value) => handleChangeText('email', value)} />
+                            <TextInput style={styles.input} placeholder='Correo' value={currentUser.email} onChangeText={(value) => handleChangeTextEdit('email', value)} />
                         </View>
                         <View style={styles.inputGroup}>
                             <Text style={styles.label}>Contraseña</Text>
-                            <TextInput style={styles.input} placeholder='Contraseña' onChangeText={(value) => handleChangeText('password', value)} />
+                            <TextInput style={styles.input} placeholder='Contraseña' value={currentUser.password} onChangeText={(value) => handleChangeTextEdit('password', value)} />
                         </View>
                         <View style={styles.inputGroup}>
                             <Text style={styles.label}>N° de number</Text>
-                            <TextInput style={styles.input} placeholder='number' onChangeText={(value) => handleChangeText('number', value)} />
+                            <TextInput style={styles.input} placeholder='number' value={currentUser.number} onChangeText={(value) => handleChangeTextEdit('number', value)} />
                         </View>
                         <View style={styles.inputGroup}>
                             <Text style={styles.label}>Departamento</Text>
-                            <TextInput style={styles.input} placeholder='Departamento' onChangeText={(value) => handleChangeText('apartament', value)} />
+                            <TextInput style={styles.input} placeholder='Departamento' value={currentUser.apartament} onChangeText={(value) => handleChangeTextEdit('apartament', value)} />
                         </View>
                         <TouchableHighlight style={styles.saveBtn}
                             onPress={() => {
-                                console.log(state)
-                                // setShowModal(false)
+                                updateCurrentUser()
                             }}>
                             <Text style={styles.txtBtn}>Guardar</Text>
                         </TouchableHighlight>
