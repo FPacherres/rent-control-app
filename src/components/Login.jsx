@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useFonts } from 'expo-font'
-import { View, Text, TouchableOpacity, TextInput, Alert, StyleSheet, ImageBackground, Image, useColorScheme } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, ImageBackground, Image, useColorScheme } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 // Firebase
@@ -10,12 +10,12 @@ import app from '../firebase'
 
 
 export default function LoginScreen() {
-  
-  const [email, SetEmail] = React.useState('')
-  const [password, SetPassword] = React.useState('')
-  const [forgotPassword, SetForgotPassword] = React.useState(false)
+
+  const [email, SetEmail] = useState('')
+  const [password, SetPassword] = useState('')
+  const [forgotPassword, SetForgotPassword] = useState(false)
   const navigation = useNavigation()
-  
+
   const auth = getAuth(app)
 
   const [fontsCustom] = useFonts({
@@ -27,43 +27,47 @@ export default function LoginScreen() {
   const image = require(`../../assets/LoginScreen.png`)
   const logo = require(`../../assets/logoLight.png`)
 
-  
+  //   useEffect(() => {
+  //     SetEmail('')
+  //     SetPassword('')
+  //     SetForgotPassword(false)
+  //     return () => setData([])
+  // }, [])
+
   if (!fontsCustom) return null
 
   const handleSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      console.log('Signed in!')
-      // const user = userCredential.user
-      // console.log(user)
-      navigation.navigate('MyDrawer')
-    })
-    .catch(error => {
-      console.log(error)
-    })
+      .then((userCredential) => {
+        console.log('Signed in!')
+        navigation.navigate('MyDrawer')
+      })
+      .catch(error => {
+        console.log(error)
+      })
   }
 
-  return( 
+  return (
     <View style={styles.container}>
       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-      <Image style={styles.logo} source={logo}></Image>
+        <Image style={styles.logo} source={logo}></Image>
         <Text style={styles.title}>{forgotPassword ? 'Recuperar Cuenta' : 'Iniciar Sesión'}</Text>
-        <Text style={[styles.msgForgotPassword, {display: forgotPassword ? 'flex' : 'none'}]}>
+        <Text style={[styles.msgForgotPassword, { display: forgotPassword ? 'flex' : 'none' }]}>
           Ingrese su correo para que el Administrador recupere su cuenta en el transcurso de 24 horas.
         </Text>
         <View style={styles.groupInput}>
           <Text style={styles.label}>Email</Text>
-          <TextInput style={[styles.input, {backgroundColor: theme === 'dark' ? '#fff' : '#fff'}]}  onChangeText={ (text) => SetEmail(text.trim()) } />
+          <TextInput style={[styles.input, { backgroundColor: theme === 'dark' ? '#fff' : '#fff' }]} onChangeText={(text) => SetEmail(text.trim())} />
         </View>
-        <View style={[styles.groupInput, {display: !forgotPassword ? 'flex' : 'none'}]}>
+        <View style={[styles.groupInput, { display: !forgotPassword ? 'flex' : 'none' }]}>
           <Text style={styles.label} >Password</Text>
-          <TextInput style={[styles.input, {backgroundColor: theme === 'dark' ? '#fff' : '#000'}]}  onChangeText={ (text) => SetPassword(text) } />
+          <TextInput style={[styles.input, { backgroundColor: theme === 'dark' ? '#fff' : '#000' }]} onChangeText={(text) => SetPassword(text)} />
         </View>
         <TouchableOpacity style={styles.btnSignUp} onPress={handleSignIn}>
           <Text style={styles.btnText}>Ingresar</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.btnForgetPassword} onPress={() => SetForgotPassword(!forgotPassword)}>
-          <Text style={{fontFamily: 'Light', fontSize: 12}}>
+          <Text style={{ fontFamily: 'Light', fontSize: 12 }}>
             {forgotPassword ? 'Regresar' : 'Olvido su contraseña?'}
           </Text>
         </TouchableOpacity>
@@ -88,7 +92,7 @@ const styles = StyleSheet.create({
     paddingTop: 50
   },
   logo: {
-    width: 85, 
+    width: 85,
     height: 85,
     marginBottom: 30
   },
@@ -125,7 +129,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   btnText: {
-    fontSize: 22, 
+    fontSize: 22,
     lineHeight: 25,
     fontFamily: 'Regular'
   },

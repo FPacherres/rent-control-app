@@ -3,6 +3,9 @@ import { StyleSheet, Text, View, Image, Dimensions } from 'react-native'
 import { useFonts } from 'expo-font'
 import { DrawerContentScrollView } from '@react-navigation/drawer'
 
+import { getAuth, signOut } from 'firebase/auth'
+import app from '../firebase'
+
 import ButtonMenu from './ButtonMenu'
 
 let ScreenHeight = Dimensions.get("window").height
@@ -11,8 +14,17 @@ let ScreenHeight = Dimensions.get("window").height
 const typeUser = 'Admi'
 // const typeUser = 'Normal'
 
-
 export default function Menu({ navigation: { navigate } }) {
+    const auth = getAuth(app)
+    const handleSignOut = async () => {
+        try {
+            await signOut(auth);
+            navigate('Login')
+            console.log('Signed out!');
+        } catch (error) {
+            console.log(error);
+        }
+    }
     const image = require(`../../assets/logoLight.png`)
     const [fontsCustom] = useFonts({
         Light: require("../../assets/fonts/Poppins-ExtraLight.ttf"),
@@ -20,7 +32,7 @@ export default function Menu({ navigation: { navigate } }) {
         Medium: require("../../assets/fonts/Poppins-Medium.ttf")
     })
     if (!fontsCustom) return null
-    if(typeUser === "SuperAdmi") {
+    if (typeUser === "SuperAdmi") {
         return (
             <DrawerContentScrollView>
                 <View style={styles.Container}>
@@ -35,7 +47,7 @@ export default function Menu({ navigation: { navigate } }) {
                             <ButtonMenu title='Inquilinos' onPress={() => navigate('Inquilinos')} />
                             <ButtonMenu title='Pagos' onPress={() => navigate('Pagos')} />
                         </View>
-                        <ButtonMenu title='Cerrar Sesión' onPress={() => navigate('Pagos')} />
+                        <ButtonMenu title='Cerrar Sesión' onPress={() => handleSignOut()} />
                     </View>
                     <View>
                         <ButtonMenu title='Configuración' onPress={() => navigate('Configuracion')} />
@@ -44,7 +56,7 @@ export default function Menu({ navigation: { navigate } }) {
             </DrawerContentScrollView>
         )
     }
-    if(typeUser === "Admi") {
+    if (typeUser === "Admi") {
         return (
             <DrawerContentScrollView>
                 <View style={styles.Container}>
@@ -58,13 +70,13 @@ export default function Menu({ navigation: { navigate } }) {
                             <ButtonMenu title='Inquilinos' onPress={() => navigate('Inquilinos')} />
                             <ButtonMenu title='Pagos' onPress={() => navigate('Pagos')} />
                         </View>
-                        <ButtonMenu title='Cerrar Sesión' onPress={() => navigate('Pagos')} />
+                        <ButtonMenu title='Cerrar Sesión' onPress={() => handleSignOut()} />
                     </View>
                 </View>
             </DrawerContentScrollView>
         )
     }
-    if(typeUser === "Normal") {
+    if (typeUser === "Normal") {
         return (
             <DrawerContentScrollView>
                 <View style={styles.Container}>
@@ -76,7 +88,7 @@ export default function Menu({ navigation: { navigate } }) {
                         <View>
                             <ButtonMenu title='Información Básica' onPress={() => navigate('Home')} />
                         </View>
-                        <ButtonMenu title='Cerrar Sesión' onPress={() => navigate('Pagos')} />
+                        <ButtonMenu title='Cerrar Sesión' onPress={() => handleSignOut()} />
                     </View>
                 </View>
             </DrawerContentScrollView>
