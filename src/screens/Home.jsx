@@ -11,8 +11,8 @@ import { getFirestore, collection, getDoc, setDoc, doc } from 'firebase/firestor
 
 let ScreenHeight = Dimensions.get("window").height
 
-const typeUser = 'SuperAdmi'
-// const typeUser = 'Admi'
+// const typeUser = 'SuperAdmi'
+const typeUser = 'Admi'
 // const typeUser = 'Normal'
 
 export default function Home() {

@@ -58,7 +58,7 @@ export default function Tenants() {
                     data: users.docs.map(doc => {
                         let obj = doc.data()
                         const key = doc._document.key.path.segments[6]
-                        return {...obj, key: key}
+                        return { ...obj, key: key }
                     })
                 }
             ]);
@@ -82,7 +82,7 @@ export default function Tenants() {
     }
 
     const userEdit = (id) => {
-        const user = data[0].data.find(d=> d.id === id)
+        const user = data[0].data.find(d => d.id === id)
         setCurrentUser(user)
         setTypeAction('editUser')
         setShowModal(true)
@@ -93,9 +93,9 @@ export default function Tenants() {
             const userRef = app.auth().user(id)
             await userRef.delete()
             console.log('Usuario eliminado con éxito')
-          } catch (error) {
+        } catch (error) {
             console.log('Error al eliminar el usuario', error)
-          }
+        }
     }
 
     const userDelete = async (key) => {
@@ -107,9 +107,9 @@ export default function Tenants() {
             Alert.alert("Usuario eliminado.")
             getUsers()
             console.log(`Item with ID ${key} has been deleted`);
-          } catch (error) {
+        } catch (error) {
             console.error('Error deleting item:', error);
-          }
+        }
     }
 
     async function updateCurrentUser() {
@@ -211,22 +211,28 @@ export default function Tenants() {
                     <Title title={title} />
                 )}
             />
-            <TouchableHighlight style={styles.FloatBtn}
-                disabled={isDisabled}
-                underlayColor={colors.btn}
-                onPress={() => {
-                    setShowModal(true)
-                    setTypeAction('newUser')
-                }}>
-                <Text style={{ fontSize: 48, fontFamily: "Regular" }}>+</Text>
-            </TouchableHighlight>
+            {
+                typeUser === 'Admi'
+                    ?
+                    <TouchableHighlight style={styles.FloatBtn}
+                        disabled={isDisabled}
+                        underlayColor={colors.btn}
+                        onPress={() => {
+                            setShowModal(true)
+                            setTypeAction('newUser')
+                        }}>
+                        <Text style={{ fontSize: 48, fontFamily: "Regular" }}>+</Text>
+                    </TouchableHighlight>
+                    :
+                    <View></View>
+            }
             <Modal
                 animationType="slide"
                 visible={showModal}
             >
                 {typeAction === "newUser"
                     ?
-                    <ScrollView style={[styles.container, {paddingHorizontal: 20}]}>
+                    <ScrollView style={[styles.container, { paddingHorizontal: 20 }]}>
                         <TouchableHighlight style={styles.btnBack}
                             underlayColor={"tansparent"}
                             onPress={() => {
@@ -272,7 +278,7 @@ export default function Tenants() {
                         </TouchableHighlight>
                     </ScrollView>
                     :
-                    <ScrollView style={[styles.container, {paddingHorizontal: 20}]}>
+                    <ScrollView style={[styles.container, { paddingHorizontal: 20 }]}>
                         <TouchableHighlight style={styles.btnBack}
                             underlayColor={"tansparent"}
                             onPress={() => {
@@ -295,7 +301,7 @@ export default function Tenants() {
                         </View>
                         <View style={styles.inputGroup}>
                             <Text style={styles.label}>Correo</Text>
-                            <TextInput style={styles.input} placeholder='Correo' value={currentUser.email} onChangeText={(value) => handleChangeTextEdit('email', value)} />
+                            <TextInput style={styles.input} placeholder='Correo' value={currentUser.email} />
                         </View>
                         <View style={styles.inputGroup}>
                             <Text style={styles.label}>Contraseña</Text>
