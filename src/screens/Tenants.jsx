@@ -8,11 +8,11 @@ import { ScrollView, TextInput } from 'react-native-gesture-handler'
 
 
 import app from '../firebase'
-import { getFirestore, collection, addDoc, getDocs, setDoc, doc } from 'firebase/firestore'
+import { getFirestore, collection, addDoc, getDocs, setDoc, doc, deleteDoc } from 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 
-// const typeUser = 'SuperAdmi'
-const typeUser = 'Admi'
+const typeUser = 'SuperAdmi'
+// const typeUser = 'Admi'
 
 export default function Tenants() {
 
@@ -25,6 +25,7 @@ export default function Tenants() {
 
     const [showModal, setShowModal] = useState(false)
     const [typeAction, setTypeAction] = useState('newUser')
+    const [currentKey, setCurrentKey] = useState('')
 
     const [isDisabled, setIsDisabled] = useState(false);
     const [currentUser, setCurrentUser] = useState({})
@@ -84,6 +85,30 @@ export default function Tenants() {
         setCurrentUser(user)
         setTypeAction('editUser')
         setShowModal(true)
+    }
+
+    const deleteAccount = async (id) => {
+        try {
+            const userRef = app.auth().user(id)
+            await userRef.delete()
+            console.log('Usuario eliminado con éxito')
+          } catch (error) {
+            console.log('Error al eliminar el usuario', error)
+          }
+    }
+
+    const userDelete = async (key) => {
+        setCurrentKey(key)
+        try {
+            const itemRef = doc(collection(db, 'users'), key)
+            await deleteAccount(key)
+            // await deleteDoc(itemRef)
+            Alert.alert("Usuario eliminado.")
+            getUsers()
+            console.log(`Item with ID ${key} has been deleted`);
+          } catch (error) {
+            console.error('Error deleting item:', error);
+          }
     }
 
     async function updateCurrentUser() {
@@ -180,7 +205,7 @@ export default function Tenants() {
             <SectionList
                 sections={data}
                 keyExtractor={(item, index) => item + index}
-                renderItem={({ item }) => <CardTenant data={item} view={"tenants"} userEdit={userEdit} />}
+                renderItem={({ item }) => <CardTenant data={item} view={"tenants"} userEdit={userEdit} userDelete={userDelete} />}
                 renderSectionHeader={({ section: { title } }) => (
                     <Title title={title} />
                 )}

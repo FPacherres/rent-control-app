@@ -4,14 +4,18 @@ import { useFonts } from 'expo-font'
 
 import { PhoneIcon, UserIcon, TrashIcon, ArrowPathIcon } from "react-native-heroicons/outline"
 
-export default function CardTenant({ data, view, userEdit }) {
-    // const typeUser = 'SuperAdmi'
-    const typeUser = 'Admi'
+export default function CardTenant({ data, view, userEdit, userDelete }) {
+    const typeUser = 'SuperAdmi'
+    // const typeUser = 'Admi'
 
     const [isDisabled, setIsDisabled] = useState(!data.debet);
 
     const editUserById = () => {
         userEdit(data.id)
+    }
+
+    const editUserByKey = () => {
+        userDelete(data.key)
     }
 
     const [fontsCustom] = useFonts({
@@ -78,7 +82,7 @@ export default function CardTenant({ data, view, userEdit }) {
                     <View style={styles.action}>
                         <TouchableOpacity
                             style={{ paddingLeft: 12 }}
-                            onPress={() => Alert.alert('Simple Button pressed')}
+                            onPress={() => editUserByKey()}
                         >
                             <TrashIcon color="#FFFFFF" fill="transparent" size={30} />
                         </TouchableOpacity>
