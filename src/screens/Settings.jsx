@@ -1,11 +1,13 @@
 import React from 'react'
-import { View, SafeAreaView, SectionList, StyleSheet, Dimensions, Text } from 'react-native'
+import { SafeAreaView, SectionList, StyleSheet, Dimensions, Text } from 'react-native'
 import Constants from 'expo-constants'
 import InputCustom from '../components/InputCustom'
 import MainBtn from '../components/MainBtn'
 import Title from '../components/Title'
 
 let ScreenHeight = Dimensions.get("window").height
+
+import colors from '../res/colors'
 
 export default function Settings() {
     const DATA = [
@@ -41,5 +43,8 @@ const styles = StyleSheet.create({
         width: '100%',
         // height: ScreenHeight,
         marginTop: Constants.statusBarHeight,
+        marginTop: 0,
+        paddingTop: 20,
+        backgroundColor: colors.primary
     }
 })

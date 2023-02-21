@@ -4,15 +4,15 @@ import Constants from 'expo-constants'
 import Title from '../components/Title'
 import { EyeIcon, EyeSlashIcon } from "react-native-heroicons/outline"
 
-
+import colors from "../res/colors"
 
 import app from '../firebase'
 import { getFirestore, collection, getDoc, setDoc, doc } from 'firebase/firestore'
 
 let ScreenHeight = Dimensions.get("window").height
 
-// const typeUser = 'SuperAdmi'
-const typeUser = 'Admi'
+const typeUser = 'SuperAdmi'
+// const typeUser = 'Admi'
 // const typeUser = 'Normal'
 
 export default function Home() {
@@ -299,15 +299,18 @@ export default function Home() {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        // height: ScreenHeight,
+        // width: '100%',
+        height: ScreenHeight,
         marginTop: Constants.statusBarHeight,
+        backgroundColor: colors.primary,
+        marginTop: 0,
+        paddingTop: 20
     },
     inputGroup: {
         marginVertical: 10
     },
     input: {
-        backgroundColor: "#000000",
+        backgroundColor: colors.secondary,
         paddingHorizontal: 20,
         paddingVertical: 8,
         marginTop: 10,
@@ -330,7 +333,7 @@ const styles = StyleSheet.create({
     saveBtn: {
         marginTop: 30,
         marginBottom: 50,
-        backgroundColor: "#295065",
+        backgroundColor: colors.btn,
         paddingVertical: 15,
         borderRadius: 10
     },

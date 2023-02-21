@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { Text, StyleSheet, View, TouchableOpacity, Alert } from 'react-native'
+import { Text, StyleSheet, View, TouchableOpacity } from 'react-native'
 import { useFonts } from 'expo-font'
+
+import colors from '../res/colors'
 
 import { PhoneIcon, UserIcon, TrashIcon, ArrowPathIcon } from "react-native-heroicons/outline"
 
 export default function CardTenant({ data, view, userEdit, userDelete }) {
-    const typeUser = 'SuperAdmi'
-    // const typeUser = 'Admi'
+    // const typeUser = 'SuperAdmi'
+    const typeUser = 'Admi'
 
     const [isDisabled, setIsDisabled] = useState(!data.debet);
 
@@ -25,7 +27,7 @@ export default function CardTenant({ data, view, userEdit, userDelete }) {
     })
     if (!fontsCustom) return null
     return (
-        <View style={[styles.card, { backgroundColor: data.debet ? "#7F2020" : "#395065" }]}>
+        <View style={[styles.card, { backgroundColor: data.debet ? colors.danger : colors.succes }]}>
             <View style={[styles.snippet, { width: typeUser === "SuperAdmi" && view === "tenants" ? "85%" : "100%" }]}>
                 <View style={{ display: "flex", flexDirection: "row" }}>
                     <View style={{ paddingTop: 3, width: 25 }}><UserIcon color="#FFFFFF" fill="transparent" size={20} /></View>
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
     },
     btnDebet: {
         width: 80,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
         display: "flex",
         flexDirection: "row",
         justifyContent: "center",
@@ -155,7 +157,7 @@ const styles = StyleSheet.create({
         height: 20,
         width: 20,
         borderRadius: 10,
-        backgroundColor: "#E5BE01",
+        backgroundColor: colors.alert,
         right: -7,
         top: -7,
         display: "flex",

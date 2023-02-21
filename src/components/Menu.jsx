@@ -37,7 +37,7 @@ export default function Menu({ navigation: { navigate } }) {
             <DrawerContentScrollView>
                 <View style={styles.Container}>
                     <View>
-                        <View style={styles.ContainerLogo}>
+                        <View style={styles.containerLogo}>
                             <Image style={styles.Logo} source={image}></Image>
                             <Text style={styles.Title}>CBuilding</Text>
                         </View>
@@ -61,7 +61,7 @@ export default function Menu({ navigation: { navigate } }) {
             <DrawerContentScrollView>
                 <View style={styles.Container}>
                     <View>
-                        <View style={styles.ContainerLogo}>
+                        <View style={styles.containerLogo}>
                             <Image style={styles.Logo} source={image}></Image>
                             <Text style={styles.Title}>CBuilding</Text>
                         </View>
@@ -81,7 +81,7 @@ export default function Menu({ navigation: { navigate } }) {
             <DrawerContentScrollView>
                 <View style={styles.Container}>
                     <View>
-                        <View style={styles.ContainerLogo}>
+                        <View style={styles.containerLogo}>
                             <Image style={styles.Logo} source={image}></Image>
                             <Text style={styles.Title}>CBuilding</Text>
                         </View>
@@ -101,15 +101,15 @@ const styles = StyleSheet.create({
         display: "flex",
         justifyContent: "space-between",
         height: ScreenHeight - 5,
-        paddingBottom: 30
+        paddingBottom: 30,
     },
-    ContainerLogo: {
+    containerLogo: {
         width: "100%",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
         height: 70,
-        paddingHorizontal: 25,
+        paddingHorizontal: 25
     },
     Logo: {
         width: 30,

@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import app from '../firebase'
 
-
+import colors from '../res/colors';
 
 export default function LoginScreen() {
 
@@ -81,7 +81,8 @@ export default function LoginScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: colors.primary
   },
   image: {
     flex: 1,
@@ -89,7 +90,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
-    paddingTop: 50
+    paddingTop: 50,
+    opacity: 0.7
   },
   logo: {
     width: 85,
@@ -117,10 +119,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     borderRadius: 5,
     paddingHorizontal: 20,
-    fontFamily: 'Light'
+    fontFamily: 'Light',
   },
   btnSignUp: {
-    backgroundColor: '#395065',
+    backgroundColor: colors.btn,
     width: '85%',
     height: 50,
     borderRadius: 5,

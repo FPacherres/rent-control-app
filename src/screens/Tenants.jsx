@@ -6,13 +6,14 @@ import { useFonts } from 'expo-font'
 import Title from '../components/Title'
 import { ScrollView, TextInput } from 'react-native-gesture-handler'
 
+import colors from '../res/colors'
 
 import app from '../firebase'
 import { getFirestore, collection, addDoc, getDocs, setDoc, doc, deleteDoc } from 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 
-const typeUser = 'SuperAdmi'
-// const typeUser = 'Admi'
+// const typeUser = 'SuperAdmi'
+const typeUser = 'Admi'
 
 export default function Tenants() {
 
@@ -212,6 +213,7 @@ export default function Tenants() {
             />
             <TouchableHighlight style={styles.FloatBtn}
                 disabled={isDisabled}
+                underlayColor={colors.btn}
                 onPress={() => {
                     setShowModal(true)
                     setTypeAction('newUser')
@@ -226,6 +228,7 @@ export default function Tenants() {
                     ?
                     <ScrollView style={[styles.container, {paddingHorizontal: 20}]}>
                         <TouchableHighlight style={styles.btnBack}
+                            underlayColor={"tansparent"}
                             onPress={() => {
                                 setShowModal(false)
                             }}>
@@ -261,6 +264,7 @@ export default function Tenants() {
                             <TextInput style={styles.input} placeholder='Departamento' onChangeText={(value) => handleChangeText('apartament', value)} />
                         </View>
                         <TouchableHighlight style={styles.saveBtn}
+                            underlayColor={colors.btn}
                             onPress={() => {
                                 saveNewUser()
                             }}>
@@ -270,6 +274,7 @@ export default function Tenants() {
                     :
                     <ScrollView style={[styles.container, {paddingHorizontal: 20}]}>
                         <TouchableHighlight style={styles.btnBack}
+                            underlayColor={"tansparent"}
                             onPress={() => {
                                 setShowModal(false)
                             }}>
@@ -305,6 +310,7 @@ export default function Tenants() {
                             <TextInput style={styles.input} placeholder='Departamento' value={currentUser.apartament} onChangeText={(value) => handleChangeTextEdit('apartament', value)} />
                         </View>
                         <TouchableHighlight style={styles.saveBtn}
+                            underlayColor={colors.btn}
                             onPress={() => {
                                 updateCurrentUser()
                             }}>
@@ -322,7 +328,10 @@ const styles = StyleSheet.create({
         width: '100%',
         marginTop: Constants.statusBarHeight,
         paddingBottom: 80,
-        height: '100%'
+        height: '100%',
+        marginTop: 0,
+        paddingTop: 20,
+        backgroundColor: colors.primary
     },
     title: {
         fontSize: 44,
@@ -333,7 +342,7 @@ const styles = StyleSheet.create({
         marginVertical: 10
     },
     input: {
-        backgroundColor: "#000000",
+        backgroundColor: colors.secondary,
         paddingHorizontal: 20,
         paddingVertical: 8,
         marginTop: 10,
@@ -346,7 +355,7 @@ const styles = StyleSheet.create({
     saveBtn: {
         marginTop: 30,
         marginBottom: 50,
-        backgroundColor: "#295065",
+        backgroundColor: colors.btn,
         paddingVertical: 15,
         borderRadius: 10
     },
@@ -359,7 +368,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         bottom: 40,
         right: 20,
-        backgroundColor: "#FFFFFF",
+        backgroundColor: colors.btn,
         width: 60,
         height: 60,
         borderRadius: 30,

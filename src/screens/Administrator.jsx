@@ -5,6 +5,7 @@ import InputCustom from '../components/InputCustom'
 import MainBtn from '../components/MainBtn'
 import Title from '../components/Title'
 
+import colors from '../res/colors'
 
 // const typeUser = 'SuperAdmi'
 // const typeUser = 'Admi'
@@ -43,7 +44,9 @@ export default function Administrator() {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        marginTop: Constants.statusBarHeight,
+        height: '100%',
+        marginTop: 0,
+        paddingTop: 20,
+        backgroundColor: colors.primary
     }
 })

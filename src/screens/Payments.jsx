@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { SafeAreaView, SectionList, StyleSheet } from 'react-native'
+import { SafeAreaView, SectionList, StyleSheet, Alert } from 'react-native'
 import Constants from 'expo-constants'
 import CardTenant from '../components/CardTenant'
 import Title from '../components/Title'
@@ -7,6 +7,7 @@ import Title from '../components/Title'
 import app from '../firebase'
 import { getFirestore, collection, getDocs, setDoc, doc } from 'firebase/firestore'
 
+import colors from '../res/colors'
 
 // const typeUser = 'SuperAdmi'
 const typeUser = 'Admi'
@@ -93,8 +94,11 @@ export default function Payments() {
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
+        height: '100%',
         marginTop: Constants.statusBarHeight,
-        paddingBottom: 50
+        paddingBottom: 50,
+        marginTop: 0,
+        paddingTop: 20,
+        backgroundColor: colors.primary
     }
 })
