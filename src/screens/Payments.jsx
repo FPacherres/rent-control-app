@@ -35,10 +35,11 @@ export default function Payments() {
         forgotPassword: false,
         typeUser: "Normal"
     })
-    
+
     const userEdit = async (id) => {
-        const user = data[0].data.find(d=> d.id === id)
-        setCurrentUser({...user, debet: false})
+        const user = data[0].data.find(d => d.id === id)
+        const obj = { ...user, debet: false }
+        setCurrentUser(obj)
         await updateUser()
     }
 
@@ -53,7 +54,7 @@ export default function Payments() {
                     data: users.docs.map(doc => {
                         let obj = doc.data()
                         const key = doc._document.key.path.segments[6]
-                        return {...obj, key: key}
+                        return { ...obj, key: key }
                     })
                 }
             ]);
