@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontFamily: "Regular",
         textTransform: "uppercase",
-        marginLeft: 10
+        marginLeft: 10,
+        color: "#FFF"
     }
 })

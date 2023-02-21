@@ -49,10 +49,10 @@ export default function CardTenant({ data, view, userEdit, userDelete }) {
                         :
                         <View style={styles.infoAdmi}>
                             <View style={styles.snippetAdmi}>
-                                <Text style={{ fontFamily: "Light" }}>Piso <Text style={{ fontFamily: "Regular" }}>{data.number}   /   </Text>Dtpo <Text style={{ fontFamily: "Regular" }}>{data.apartament}</Text></Text>
+                                <Text style={{ fontFamily: "Light", color: "#FFF" }}>Piso <Text style={{ fontFamily: "Regular" }}>{data.number}   /   </Text>Dtpo <Text style={{ fontFamily: "Regular" }}>{data.apartament}</Text></Text>
                                 <View style={{ display: "flex", flexDirection: "row" }}>
                                     <View style={{ paddingTop: 2, width: 17 }}><PhoneIcon color="#FFFFFF" fill="transparent" size={12} /></View>
-                                    <Text style={{ fontFamily: "Regular" }}>
+                                    <Text style={{ fontFamily: "Regular", color: "#FFF"}}>
                                         {data.phone}</Text>
                                 </View>
                             </View>
@@ -63,7 +63,7 @@ export default function CardTenant({ data, view, userEdit, userDelete }) {
                                         style={styles.btnDebet}
                                         onPress={() => editUserById()}
                                     >
-                                        <Text>Editar</Text>
+                                        <Text style={{color: "#FFF"}}>Editar</Text>
                                     </TouchableOpacity>
                                     :
                                     <TouchableOpacity
@@ -72,7 +72,7 @@ export default function CardTenant({ data, view, userEdit, userDelete }) {
                                             editUserById()
                                         }}}
                                     >
-                                        <Text>{data.debet ? "No Pago" : "Pago"}</Text>
+                                        <Text style={{color: "#FFF"}}>{data.debet ? "No Pago" : "Pago"}</Text>
                                     </TouchableOpacity>
                             }
                         </View>
@@ -128,7 +128,8 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 24,
-        fontFamily: "Regular"
+        fontFamily: "Regular",
+        color: "#FFF"
     },
     info: {
         display: "flex",

@@ -221,7 +221,7 @@ export default function Tenants() {
                             setShowModal(true)
                             setTypeAction('newUser')
                         }}>
-                        <Text style={{ fontSize: 48, fontFamily: "Regular" }}>+</Text>
+                        <Text style={{ fontSize: 48, fontFamily: "Regular", color: "#FFF" }}>+</Text>
                     </TouchableHighlight>
                     :
                     <View></View>
@@ -342,7 +342,8 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 44,
         textAlign: 'center',
-        paddingVertical: 20
+        paddingVertical: 20,
+        color: "#FFF"
     },
     inputGroup: {
         marginVertical: 10
@@ -353,10 +354,12 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         marginTop: 10,
         borderRadius: 8,
-        fontFamily: 'Light'
+        fontFamily: 'Light',
+        color: "#FFF"
     },
     label: {
-        fontFamily: 'Regular'
+        fontFamily: 'Regular',
+        color: "#FFF"
     },
     saveBtn: {
         marginTop: 30,
@@ -368,7 +371,8 @@ const styles = StyleSheet.create({
     txtBtn: {
         fontFamily: 'Regular',
         fontSize: 24,
-        textAlign: 'center'
+        textAlign: 'center',
+        color: "#FFF"
     },
     FloatBtn: {
         position: "absolute",

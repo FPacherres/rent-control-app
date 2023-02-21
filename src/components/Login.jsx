@@ -57,23 +57,20 @@ export default function LoginScreen() {
         </Text>
         <View style={styles.groupInput}>
           <Text style={styles.label}>Email</Text>
-          <TextInput style={[styles.input, { backgroundColor: theme === 'dark' ? '#fff' : '#fff' }]} onChangeText={(text) => SetEmail(text.trim())} />
+          <TextInput style={[styles.input, { backgroundColor: '#000000AA', color: '#FFF' }]} onChangeText={(text) => SetEmail(text.trim())} />
         </View>
         <View style={[styles.groupInput, { display: !forgotPassword ? 'flex' : 'none' }]}>
           <Text style={styles.label} >Password</Text>
-          <TextInput style={[styles.input, { backgroundColor: theme === 'dark' ? '#fff' : '#000' }]} onChangeText={(text) => SetPassword(text)} />
+          <TextInput style={[styles.input, { backgroundColor: '#000000AA', color: '#FFF' }]} onChangeText={(text) => SetPassword(text)} />
         </View>
         <TouchableOpacity style={styles.btnSignUp} onPress={handleSignIn}>
           <Text style={styles.btnText}>Ingresar</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.btnForgetPassword} onPress={() => SetForgotPassword(!forgotPassword)}>
-          <Text style={{ fontFamily: 'Light', fontSize: 12 }}>
+          <Text style={{ fontFamily: 'Light', fontSize: 12, color: "#FFF" }}>
             {forgotPassword ? 'Regresar' : 'Olvido su contraseña?'}
           </Text>
         </TouchableOpacity>
-        {/* <TouchableOpacity style={styles.btnForgetPassword} onPress={handleCreateAccount}>
-          <Text style={{fontFamily: 'Light', fontSize: 12}}>Olvido su contraseña?</Text>
-        </TouchableOpacity> */}
       </ImageBackground>
     </View>
   )
@@ -102,7 +99,8 @@ const styles = StyleSheet.create({
     fontSize: 35,
     lineHeight: 40,
     fontFamily: 'Medium',
-    marginBottom: 60
+    marginBottom: 60, 
+    color: '#FFF'
   },
   groupInput: {
     width: '85%',
@@ -112,7 +110,8 @@ const styles = StyleSheet.create({
     fontSize: 22,
     paddingLeft: 20,
     lineHeight: 25,
-    fontFamily: 'Regular'
+    fontFamily: 'Regular',
+    color: "#FFF"
   },
   input: {
     height: 55,
@@ -133,7 +132,8 @@ const styles = StyleSheet.create({
   btnText: {
     fontSize: 22,
     lineHeight: 25,
-    fontFamily: 'Regular'
+    fontFamily: 'Regular',
+    color: "#FFF"
   },
   btnForgetPassword: {
     marginTop: 50
@@ -143,6 +143,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingHorizontal: 20,
     textAlign: 'center',
-    marginBottom: 50
+    marginBottom: 50,
+    color: "#FFF"
   }
 })

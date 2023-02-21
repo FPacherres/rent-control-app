@@ -22,8 +22,9 @@ export default function MyDrawer() {
         width: 270,
       },
       headerStyle: {
-        backgroundColor: colors.primary
-      }
+        backgroundColor: colors.primary,
+      },
+      headerTintColor: '#FFF'
     }}
 
       drawerContent={(props) => <Menu {...props} />}

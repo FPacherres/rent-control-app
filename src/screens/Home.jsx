@@ -307,7 +307,9 @@ const styles = StyleSheet.create({
         paddingTop: 20
     },
     inputGroup: {
-        marginVertical: 10
+        marginVertical: 10,
+        borderBottomColor: "#175e8cAA",
+        borderBottomWidth: 1
     },
     input: {
         backgroundColor: colors.secondary,
@@ -319,16 +321,19 @@ const styles = StyleSheet.create({
     },
     label: {
         fontFamily: 'Regular',
+        color: "#FFF"
     },
     value: {
         fontFamily: 'Medium',
         fontSize: 22,
         textAlign: "right",
+        color: "#FFF"
     },
     title: {
         fontSize: 44,
         textAlign: 'center',
-        paddingVertical: 20
+        paddingVertical: 20,
+        color: "#FFF"
     },
     saveBtn: {
         marginTop: 30,
@@ -340,14 +345,13 @@ const styles = StyleSheet.create({
     txtBtn: {
         fontFamily: 'Regular',
         fontSize: 24,
-        textAlign: 'center'
+        textAlign: 'center',
+        color: "#FFF"
     },
     textContainer: {
         width: "100%",
         marginBottom: 45,
-        paddingBottom: 15,
-        borderBottomColor: "#3c3c3c",
-        borderBottomWidth: 1
+        paddingBottom: 15
     },
     passwordContainer: {
         display: "flex",

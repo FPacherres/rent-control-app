@@ -10,8 +10,8 @@ import ButtonMenu from './ButtonMenu'
 
 let ScreenHeight = Dimensions.get("window").height
 
-// const typeUser = 'SuperAdmi'
-const typeUser = 'Admi'
+const typeUser = 'SuperAdmi'
+// const typeUser = 'Admi'
 // const typeUser = 'Normal'
 
 export default function Menu({ navigation: { navigate } }) {
@@ -120,6 +120,7 @@ const styles = StyleSheet.create({
         textTransform: "uppercase",
         fontFamily: "Medium",
         paddingTop: 17,
-        paddingLeft: 10
+        paddingLeft: 10,
+        color: "#FFF"
     }
 })
