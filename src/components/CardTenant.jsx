@@ -5,10 +5,10 @@ import { useFonts } from 'expo-font'
 import colors from '../res/colors'
 
 import { PhoneIcon, UserIcon, TrashIcon, ArrowPathIcon } from "react-native-heroicons/outline"
+import { useSelector } from 'react-redux';
 
 export default function CardTenant({ data, view, userEdit, userDelete }) {
-    const typeUser = 'SuperAdmi'
-    // const typeUser = 'Admi'
+    const typeUser = useSelector(state => state.auth.typeUser)
 
     const [isDisabled, setIsDisabled] = useState(!data.debet);
 

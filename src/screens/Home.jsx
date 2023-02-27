@@ -13,12 +13,9 @@ import { useSelector } from 'react-redux';
 
 let ScreenHeight = Dimensions.get("window").height
 
-const typeUser = 'SuperAdmi'
-// const typeUser = 'Admi'
-// const typeUser = 'Normal'
-
 export default function Home() {
-    const id = useSelector(state => state.auth.uid)
+
+    const typeUser = useSelector(state => state.auth.typeUser)
 
     if (typeUser === 'SuperAdmi') {
         const db = getFirestore(app)
@@ -107,7 +104,6 @@ export default function Home() {
 
         return (
             <ScrollView style={[styles.container, { paddingHorizontal: 20 }]}>
-                <Text>{ id }</Text>
                 <Title title={"Informacion Básica"} noPadX={true} />
                 <View style={styles.inputGroup}>
                     <Text style={styles.label}>Nombre</Text>

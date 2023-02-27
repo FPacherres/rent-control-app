@@ -9,7 +9,7 @@ import { getFirestore, collection, addDoc, getDocs, setDoc, doc, deleteDoc } fro
 import app from '../firebase'
 
 import { useDispatch } from 'react-redux';
-import { getCurrentUserKey, getUsersStore, getUserStore } from '../store/auth'
+import { getTypeUser } from '../store/auth'
 
 import colors from '../res/colors';
 
@@ -34,23 +34,24 @@ export default function LoginScreen() {
   const image = require(`../../assets/LoginScreen.png`)
   const logo = require(`../../assets/logoLight.png`)
 
-  const [data, setData] = useState([])
+  // const [data, setData] = useState([])
+  const [typeUser, SetTypeUser] = useState([])
 
-  const getUsers = async () => {
-    try {
-      const users = await getDocs(collection(db, "users"));
-      setData([
-          ...users.docs.map(doc => {
-            let obj = doc.data()
-            const key = doc._document.key.path.segments[6]
-            return { ...obj, key: key }
-          })
-      ]);
-    } catch (error) {
-      console.log(error);
-      Alert.alert(error.message);
-    }
-  }
+  // const getUsers = async () => {
+  //   try {
+  //     const users = await getDocs(collection(db, "users"));
+  //     setData([
+  //         ...users.docs.map(doc => {
+  //           let obj = doc.data()
+  //           const key = doc._document.key.path.segments[6]
+  //           return { ...obj, key: key }
+  //         })
+  //     ]);
+  //   } catch (error) {
+  //     console.log(error);
+  //     Alert.alert(error.message);
+  //   }
+  // }
 
   // useEffect(() => {
     //   return () => setData([])
@@ -59,13 +60,14 @@ export default function LoginScreen() {
     if (!fontsCustom) return null
     
     const handleSignIn = async () => {
-      await getUsers()
-      dispatch(getUsersStore(data))
+      // await getUsers()
+      // dispatch(getUsersStore(data))
       signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log('Signed in!')
-        dispatch(getCurrentUserKey(userCredential))
-        dispatch(getUserStore())
+        dispatch(getTypeUser(typeUser))
+        // dispatch(getCurrentUserKey(userCredential))
+        // dispatch(getUserStore())
         navigation.navigate('MyDrawer')
       })
       .catch(error => {
@@ -88,6 +90,10 @@ export default function LoginScreen() {
         <View style={[styles.groupInput, { display: !forgotPassword ? 'flex' : 'none' }]}>
           <Text style={styles.label} >Password</Text>
           <TextInput style={[styles.input, { backgroundColor: '#000000AA', color: '#FFF' }]} onChangeText={(text) => SetPassword(text)} />
+        </View>
+        <View style={styles.groupInput}>
+          <Text style={styles.label}>Tipo de usuario</Text>
+          <TextInput style={[styles.input, { backgroundColor: '#000000AA', color: '#FFF' }]} onChangeText={(text) => SetTypeUser(text.trim())} />
         </View>
         <TouchableOpacity style={styles.btnSignUp} onPress={handleSignIn}>
           <Text style={styles.btnText}>Ingresar</Text>

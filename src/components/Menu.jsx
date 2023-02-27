@@ -10,11 +10,12 @@ import ButtonMenu from './ButtonMenu'
 
 let ScreenHeight = Dimensions.get("window").height
 
-const typeUser = 'SuperAdmi'
-// const typeUser = 'Admi'
-// const typeUser = 'Normal'
+import { useSelector } from 'react-redux';
+
 
 export default function Menu({ navigation: { navigate } }) {
+    const typeUser = useSelector(state => state.auth.typeUser)
+    console.log(typeUser)
     const auth = getAuth(app)
     const handleSignOut = async () => {
         try {

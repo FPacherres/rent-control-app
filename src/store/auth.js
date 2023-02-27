@@ -8,11 +8,15 @@ const db = getFirestore(app)
 export const authSlice = createSlice({
     name: 'auth',
     initialState: {
+        typeUser: "SuperAdmi",
         uid: null,
         user: {},
         users: []
     },
     reducers: {
+        getTypeUser: (state, action) => {
+            state.typeUser = action.payload
+        },
         getCurrentUserKey: (state, action) => {
             state.uid = action.payload.user.uid
         },
@@ -32,6 +36,7 @@ export const authSlice = createSlice({
     }
 })
 
-export const { getCurrentUserKey, getUsersStore, getUserStore } = authSlice.actions
+export const { getTypeUser } = authSlice.actions
+// export const { getCurrentUserKey, getUsersStore, getUserStore } = authSlice.actions
 
 export default authSlice.reducer

@@ -11,11 +11,11 @@ import colors from '../res/colors'
 import app from '../firebase'
 import { getFirestore, collection, addDoc, getDocs, setDoc, doc, deleteDoc } from 'firebase/firestore'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
-
-const typeUser = 'SuperAdmi'
-// const typeUser = 'Admi'
+import { useSelector } from 'react-redux';
 
 export default function Tenants() {
+
+    const typeUser = useSelector(state => state.auth.typeUser)
 
     const [data, setData] = useState([
         {

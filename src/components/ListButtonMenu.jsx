@@ -4,12 +4,10 @@ import { useFonts } from 'expo-font'
 import { DrawerContentScrollView } from '@react-navigation/drawer'
 
 import ButtonMenu from './ButtonMenu'
-
-const typeUser = 'SuperAdmi'
-// const typeUser = 'Admi'
-// const typeUser = 'Normal'
+import { useSelector } from 'react-redux';
 
 export default function Menu({navigation}) {
+    const typeUser = useSelector(state => state.auth.typeUser)
     const image = require(`../../assets/logoLight.png`)
     const [fontsCustom] = useFonts({
         Light: require("../../assets/fonts/Poppins-ExtraLight.ttf"),
