@@ -30,7 +30,6 @@ export default function LoginScreen() {
     Regular: require("../../assets/fonts/Poppins-Regular.ttf"),
     Medium: require("../../assets/fonts/Poppins-Medium.ttf")
   })
-  const theme = useColorScheme()
   const image = require(`../../assets/LoginScreen.png`)
   const logo = require(`../../assets/logoLight.png`)
 
@@ -93,12 +92,15 @@ export default function LoginScreen() {
           <Text style={styles.label} >Password</Text>
           <TextInput style={[styles.input, { backgroundColor: '#000000AA', color: '#FFF' }]} onChangeText={(text) => SetPassword(text)} />
         </View>
-        <View style={styles.groupInput}>
+        <View style={[styles.groupInput, { display: !forgotPassword ? 'flex' : 'none' }]}>
           <Text style={styles.label}>Tipo de usuario</Text>
           <TextInput style={[styles.input, { backgroundColor: '#000000AA', color: '#FFF' }]} onChangeText={(text) => SetTypeUser(text.trim())} />
         </View>
-        <TouchableOpacity style={styles.btnSignUp} onPress={handleSignIn}>
+        <TouchableOpacity style={[styles.btnSignUp, { display: !forgotPassword ? 'flex' : 'none' }]}  onPress={handleSignIn}>
           <Text style={styles.btnText}>Ingresar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.btnSignUp, { display: forgotPassword ? 'flex' : 'none' }]}  onPress={() => Alert.alert("Acerquese con el Administrador para que le muestre su contraseña.")}>
+          <Text style={styles.btnText}>Enviar</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.btnForgetPassword} onPress={() => SetForgotPassword(!forgotPassword)}>
           <Text style={{ fontFamily: 'Light', fontSize: 12, color: "#FFF" }}>
