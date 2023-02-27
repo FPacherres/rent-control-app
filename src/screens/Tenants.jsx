@@ -68,10 +68,10 @@ export default function Tenants() {
         }
     }
 
-    useEffect(() => {
-        getUsers()
-        return () => setData([])
-    }, [])
+    getUsers()
+    // useEffect(() => {
+    //     return () => setData([])
+    // }, [])
 
     const handleChangeText = (property, value) => {
         setState({ ...state, [property]: value })
