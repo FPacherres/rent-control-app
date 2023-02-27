@@ -23,12 +23,20 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#FFFFFF",
+        "package": "com.fabdev.rentalControlApp",
+        "versionCode": 1
       },
-      "userInterfaceStyle": "dark"
+      "userInterfaceStyle": "dark",
+      "package": "com.fabdev13.rentcontrolapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "322fe9e9-7fb7-42e0-82f5-ede9add90b4c"
+      }
     }
   }
 }
