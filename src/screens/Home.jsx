@@ -332,6 +332,10 @@ export default function Home() {
                         </TouchableHighlight>
                     </View>
                 </View>
+                <View style={[styles.Container, {backgroundColor: data.debet ? "#395065" : "#7F2020"}]}>
+                    <Text style={styles.Text1}>{data.debet ? 'Felicidades' : 'Cuidado'}!</Text>
+                    <Text style={styles.Text2}>{data.debet ? 'No tiene deudas' : 'Tiene deudas'}</Text>
+                </View>
             </ScrollView>
         )
     }
@@ -392,6 +396,23 @@ const styles = StyleSheet.create({
         width: "100%",
         marginBottom: 45,
         paddingBottom: 15
+    },
+    Container: {
+        backgroundColor: "#FF0000",
+        paddingVertical: 15,
+        marginHorizontal: 20,
+        borderRadius: 10,
+        display: "flex",
+        alignItems: "center",
+        marginBottom: 40
+    },
+    Text1: {
+        fontSize: 24,
+        fontFamily: "Medium"
+    },
+    Text2: {
+        fontSize: 28,
+        fontFamily: "Regular"
     },
     passwordContainer: {
         display: "flex",
