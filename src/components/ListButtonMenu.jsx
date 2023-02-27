@@ -5,8 +5,8 @@ import { DrawerContentScrollView } from '@react-navigation/drawer'
 
 import ButtonMenu from './ButtonMenu'
 
-// const typeUser = 'SuperAdmi'
-const typeUser = 'Admi'
+const typeUser = 'SuperAdmi'
+// const typeUser = 'Admi'
 // const typeUser = 'Normal'
 
 export default function Menu({navigation}) {

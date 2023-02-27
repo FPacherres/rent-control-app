@@ -9,13 +9,17 @@ import colors from "../res/colors"
 import app from '../firebase'
 import { getFirestore, collection, getDoc, setDoc, doc } from 'firebase/firestore'
 
+import { useSelector } from 'react-redux';
+
 let ScreenHeight = Dimensions.get("window").height
 
-// const typeUser = 'SuperAdmi'
-const typeUser = 'Admi'
+const typeUser = 'SuperAdmi'
+// const typeUser = 'Admi'
 // const typeUser = 'Normal'
 
 export default function Home() {
+    const id = useSelector(state => state.auth.uid)
+
     if (typeUser === 'SuperAdmi') {
         const db = getFirestore(app)
         const KEY = "9c2e16PGBWxfALDhzHN7"
@@ -103,6 +107,7 @@ export default function Home() {
 
         return (
             <ScrollView style={[styles.container, { paddingHorizontal: 20 }]}>
+                <Text>{ id }</Text>
                 <Title title={"Informacion Básica"} noPadX={true} />
                 <View style={styles.inputGroup}>
                     <Text style={styles.label}>Nombre</Text>

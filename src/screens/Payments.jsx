@@ -9,8 +9,8 @@ import { getFirestore, collection, getDocs, setDoc, doc } from 'firebase/firesto
 
 import colors from '../res/colors'
 
-// const typeUser = 'SuperAdmi'
-const typeUser = 'Admi'
+const typeUser = 'SuperAdmi'
+// const typeUser = 'Admi'
 
 export default function Payments() {
     const [data, setData] = useState([

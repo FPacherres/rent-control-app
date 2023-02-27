@@ -7,8 +7,8 @@ import colors from '../res/colors'
 import { PhoneIcon, UserIcon, TrashIcon, ArrowPathIcon } from "react-native-heroicons/outline"
 
 export default function CardTenant({ data, view, userEdit, userDelete }) {
-    // const typeUser = 'SuperAdmi'
-    const typeUser = 'Admi'
+    const typeUser = 'SuperAdmi'
+    // const typeUser = 'Admi'
 
     const [isDisabled, setIsDisabled] = useState(!data.debet);
 

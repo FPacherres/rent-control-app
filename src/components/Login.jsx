@@ -1,15 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useFonts } from 'expo-font'
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, ImageBackground, Image, useColorScheme } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, ImageBackground, Image, useColorScheme, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 // Firebase
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+import { getFirestore, collection, addDoc, getDocs, setDoc, doc, deleteDoc } from 'firebase/firestore'
 import app from '../firebase'
+
+import { useDispatch } from 'react-redux';
+import { getCurrentUserKey, getUsersStore, getUserStore } from '../store/auth'
 
 import colors from '../res/colors';
 
 export default function LoginScreen() {
+
+  const db = getFirestore(app)
+  const dispatch = useDispatch()
 
   const [email, SetEmail] = useState('')
   const [password, SetPassword] = useState('')
@@ -27,19 +34,38 @@ export default function LoginScreen() {
   const image = require(`../../assets/LoginScreen.png`)
   const logo = require(`../../assets/logoLight.png`)
 
-  //   useEffect(() => {
-  //     SetEmail('')
-  //     SetPassword('')
-  //     SetForgotPassword(false)
-  //     return () => setData([])
-  // }, [])
+  const [data, setData] = useState([])
 
-  if (!fontsCustom) return null
+  const getUsers = async () => {
+    try {
+      const users = await getDocs(collection(db, "users"));
+      setData([
+          ...users.docs.map(doc => {
+            let obj = doc.data()
+            const key = doc._document.key.path.segments[6]
+            return { ...obj, key: key }
+          })
+      ]);
+    } catch (error) {
+      console.log(error);
+      Alert.alert(error.message);
+    }
+  }
 
-  const handleSignIn = () => {
-    signInWithEmailAndPassword(auth, email, password)
+  // useEffect(() => {
+    //   return () => setData([])
+    // }, [])
+    
+    if (!fontsCustom) return null
+    
+    const handleSignIn = async () => {
+      await getUsers()
+      dispatch(getUsersStore(data))
+      signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         console.log('Signed in!')
+        dispatch(getCurrentUserKey(userCredential))
+        dispatch(getUserStore())
         navigation.navigate('MyDrawer')
       })
       .catch(error => {
@@ -99,7 +125,7 @@ const styles = StyleSheet.create({
     fontSize: 35,
     lineHeight: 40,
     fontFamily: 'Medium',
-    marginBottom: 60, 
+    marginBottom: 60,
     color: '#FFF'
   },
   groupInput: {
