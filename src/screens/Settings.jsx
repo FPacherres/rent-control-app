@@ -81,13 +81,13 @@ export default function Settings() {
                             <Text style={styles.label}>Contraseña</Text>
                             <TextInput style={styles.input} placeholder='Contraseña' value={data.password} onChangeText={(value) => handleChangeText('password', value)} />
                         </View>
-            <TouchableHighlight style={styles.saveBtn}
+            {/* <TouchableHighlight style={styles.saveBtn}
                 underlayColor={colors.btn}
                 onPress={() => {
                     updatedUser()
                 }}>
                 <Text style={styles.txtBtn}>Guardar</Text>
-            </TouchableHighlight>
+            </TouchableHighlight> */}
         </ScrollView>
     )
 

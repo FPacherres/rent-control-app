@@ -54,7 +54,8 @@ export default function Payments() {
                     data: users.docs.map(doc => {
                         let obj = doc.data()
                         const key = doc._document.key.path.segments[6]
-                        return { ...obj, key: key }
+                        const newObj = { ...obj, key: key }
+                        return newObj
                     })
                 }
             ]);
@@ -74,10 +75,10 @@ export default function Payments() {
         }
     }
 
-    useEffect(() => {
-        getUsers()
-        return () => setData([])
-    }, [])
+    getUsers()
+    // useEffect(() => {
+    //     return () => setData([])
+    // }, [])
 
     return (
         <SafeAreaView style={styles.container}>
