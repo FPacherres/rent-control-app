@@ -40,7 +40,7 @@ export default function Tenants() {
         number: '',
         apartament: '',
         key: null,
-        debet: false,
+        debet: true,
         forgotPassword: false,
         typeUser: "Normal"
     })
@@ -83,8 +83,10 @@ export default function Tenants() {
 
     const userEdit = (id) => {
         const user = data[0].data.find(d => d.id === id)
-        setCurrentUser(user)
         setTypeAction('editUser')
+        setCurrentUser(user)
+        console.log()
+        getUsers()
         setShowModal(true)
     }
 
@@ -114,9 +116,9 @@ export default function Tenants() {
 
     async function updateCurrentUser() {
         try {
-            await setDoc(doc(db, "users", `${currentUser.key}`), currentUser);
+            console.log(currentUser)
+            await setDoc(doc(db, "users", currentUser.key), {...currentUser, debet: false});
             Alert.alert("Usuario actualizado")
-            getUsers()
             setShowModal(false)
         } catch (error) {
             console.log(error)
@@ -147,7 +149,7 @@ export default function Tenants() {
                     number: state.number,
                     apartament: state.apartament,
                     typeUser: 'Normal',
-                    debet: false,
+                    debet: true,
                     forgotPassword: false,
                     id: userId
                 });

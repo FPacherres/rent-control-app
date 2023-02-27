@@ -279,12 +279,12 @@ export default function Home() {
             setKEY(usersStore[0].data.find(u => u.id === uid).key)
         }
 
-        async function myData() {
-            await getUsers()
-            await getKey()
-            await getUser()
-        }
-        myData()
+        setTimeout(() => getUsers(), 400)
+        setTimeout(() => getKey(), 300)
+        setTimeout(() => getUser(), 300)
+        // getUsers()
+        // getKey()
+        // getUser()
         // useEffect(() => {
         //     // getUser()
         //     return () => setData({})
@@ -332,9 +332,9 @@ export default function Home() {
                         </TouchableHighlight>
                     </View>
                 </View>
-                <View style={[styles.Container, {backgroundColor: data.debet ? "#395065" : "#7F2020"}]}>
-                    <Text style={styles.Text1}>{data.debet ? 'Felicidades' : 'Cuidado'}!</Text>
-                    <Text style={styles.Text2}>{data.debet ? 'No tiene deudas' : 'Tiene deudas'}</Text>
+                <View style={[styles.Container, {backgroundColor: !data.debet ? "#395065" : "#7F2020"}]}>
+                    <Text style={styles.Text1}>{!data.debet ? 'Felicidades' : 'Cuidado'}!</Text>
+                    <Text style={styles.Text2}>{!data.debet ? 'No tiene deudas' : 'Tiene deudas'}</Text>
                 </View>
             </ScrollView>
         )

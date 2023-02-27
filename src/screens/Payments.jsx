@@ -67,9 +67,11 @@ export default function Payments() {
 
     async function updateUser() {
         try {
-            await setDoc(doc(db, "users", `${currentUser.key}`), currentUser);
-            Alert.alert("Usuario actualizado")
-            getUsers()
+            if(Object.entries(currentUser).length !== 0) {
+                await setDoc(doc(db, "users", currentUser.key), currentUser);
+                Alert.alert("Usuario actualizado")
+                getUsers()
+            }
         } catch (error) {
             console.log(error)
         }
