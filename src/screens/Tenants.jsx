@@ -102,8 +102,8 @@ export default function Tenants() {
         setCurrentKey(key)
         try {
             const itemRef = doc(collection(db, 'users'), key)
-            await deleteAccount(key)
-            // await deleteDoc(itemRef)
+            // await deleteAccount(key)
+            await deleteDoc(itemRef)
             Alert.alert("Usuario eliminado.")
             getUsers()
             console.log(`Item with ID ${key} has been deleted`);
