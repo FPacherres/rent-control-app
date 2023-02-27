@@ -9,7 +9,7 @@ import { getFirestore, collection, addDoc, getDocs, setDoc, doc, deleteDoc } fro
 import app from '../firebase'
 
 import { useDispatch } from 'react-redux';
-import { getTypeUser } from '../store/auth'
+import { getTypeUser, getIdUser } from '../store/auth'
 
 import colors from '../res/colors';
 
@@ -66,6 +66,8 @@ export default function LoginScreen() {
       .then((userCredential) => {
         console.log('Signed in!')
         dispatch(getTypeUser(typeUser))
+        dispatch(getIdUser(userCredential.user.uid))
+        // console.log(userCredential.user.uid)
         // dispatch(getCurrentUserKey(userCredential))
         // dispatch(getUserStore())
         navigation.navigate('MyDrawer')

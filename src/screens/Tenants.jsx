@@ -255,7 +255,7 @@ export default function Tenants() {
                         </View>
                         <View style={styles.inputGroup}>
                             <Text style={styles.label}>Correo</Text>
-                            <TextInput style={styles.input} placeholder='Correo' onChangeText={(value) => handleChangeText('email', value)} />
+                            <TextInput style={styles.input} placeholder='Correo' onChangeText={(value) => handleChangeText('email', value.trim())} />
                         </View>
                         <View style={styles.inputGroup}>
                             <Text style={styles.label}>Contraseña</Text>

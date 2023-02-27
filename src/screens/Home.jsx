@@ -7,7 +7,8 @@ import { EyeIcon, EyeSlashIcon } from "react-native-heroicons/outline"
 import colors from "../res/colors"
 
 import app from '../firebase'
-import { getFirestore, collection, getDoc, setDoc, doc } from 'firebase/firestore'
+import { getFirestore, collection, getDoc, getDocs, setDoc, doc } from 'firebase/firestore'
+
 
 import { useSelector } from 'react-redux';
 
@@ -219,8 +220,16 @@ export default function Home() {
         )
     }
     if (typeUser === 'Normal') {
+        const uid = useSelector(state => state.auth.idUser)
+        const [usersStore, setUsersStore] = useState([
+            {
+                title: 'Inquilinos',
+                data: []
+            }
+        ])
+
         const db = getFirestore(app)
-        const KEY = "FqTIrCJSNaKkVUe2m7nw"
+        const [KEY, setKEY] = useState("")
         const [data, setData] = useState({
             name: '',
             dni: '',
@@ -231,12 +240,30 @@ export default function Home() {
             apartament: '',
             typeUser: "Normal"
         })
+        const getUsers = async () => {
+            try {
+                const users = await getDocs(collection(db, "users"));
+                setUsersStore([
+                    {
+                        title: 'Inquilinos',
+                        data: users.docs.map(doc => {
+                            let obj = doc.data()
+                            const key = doc._document.key.path.segments[6]
+                            return { ...obj, key: key }
+                        })
+                    }
+                ]);
+            } catch (error) {
+                console.log(error);
+                // Alert.alert(error.message);  
+            }
+        }
         const [showPassword, setShowPassword] = useState(false)
         const getUser = async () => {
             try {
                 const docRef = doc(collection(db, "users"), KEY);
                 const userDoc = await getDoc(docRef);
-
+                
                 if (userDoc.exists()) {
                     setData(userDoc.data());
                 } else {
@@ -244,13 +271,25 @@ export default function Home() {
                 }
             } catch (error) {
                 console.log(error);
-                Alert.alert(error.message);
+                // Alert.alert(error.message);
             }
         }
-        useEffect(() => {
-            getUser()
-            return () => setData({})
-        }, [])
+
+        async function getKey(){
+            setKEY(usersStore[0].data.find(u => u.id === uid).key)
+        }
+
+        async function myData() {
+            await getUsers()
+            await getKey()
+            await getUser()
+        }
+        myData()
+        // useEffect(() => {
+        //     // getUser()
+        //     return () => setData({})
+        // }, [])
+
         return (
             <ScrollView style={[styles.container, { paddingHorizontal: 20 }]}>
                 <Title title={"Informacion Básica"} noPadX={true} />

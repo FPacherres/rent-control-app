@@ -9,6 +9,7 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState: {
         typeUser: "SuperAdmi",
+        idUser: null,
         uid: null,
         user: {},
         users: []
@@ -16,6 +17,9 @@ export const authSlice = createSlice({
     reducers: {
         getTypeUser: (state, action) => {
             state.typeUser = action.payload
+        },
+        getIdUser: (state, action) => {
+            state.idUser = action.payload
         },
         getCurrentUserKey: (state, action) => {
             state.uid = action.payload.user.uid
@@ -36,7 +40,7 @@ export const authSlice = createSlice({
     }
 })
 
-export const { getTypeUser } = authSlice.actions
+export const { getTypeUser, getIdUser } = authSlice.actions
 // export const { getCurrentUserKey, getUsersStore, getUserStore } = authSlice.actions
 
 export default authSlice.reducer
